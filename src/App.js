@@ -1,11 +1,14 @@
 import React from 'react';
-import { Provider } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Provider, connect } from 'react-redux';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font } from 'expo';
 import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
 
 import RootNavigator from './navigation/RootNavigator';
 import { SpinnerOverlay } from './components/base';
+import { Auth } from './services';
+import * as AuthActions from './actions/auth';
 import Store from './Store';
 
 const styles = StyleSheet.create({
@@ -53,23 +56,26 @@ class App extends React.Component {
     // await AuthServices.deleteInvitationCode();
     // await AuthServices.deleteToken();
 
-    // const token = await AuthServices.getToken();
-    // const code = await AuthServices.getInvitationCode();
-    // console.log('token: ', token);
-    // console.log('invitation code: ', code);
+    const token = await Auth.getToken();
+    const code = await Auth.getInvitationCode();
+    console.log('token: ', token);
+    console.log('invitation code: ', code);
 
-    // if (code) this.props.setInvitationCode(code);
-    // if (token) {
-    //   this.props.setIsLoggedIn(true);
-    // } else {
-    //   this.props.setIsLoggedIn(false);
-    // }
+    if (code) this.props.setInvitationCode(code);
+    if (token) {
+      this.props.setIsLoggedIn(true);
+    } else {
+      this.props.setIsLoggedIn(false);
+    }
 
     console.log('Finish load resources async!');
+
     this.setState({ isAppReady: true });
   }
 
   render() {
+    console.log(this.props.isLoggedIn);
+
     if (!this.state.isAppReady && !this.props.skipLoadingScreen) {
       return (
         <AppLoading />
@@ -86,10 +92,22 @@ class App extends React.Component {
   }
 }
 
+// Redux
+function mapStateToProps(state) {
+  return {
+    isLoggedIn: state.isLoggedIn,
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(AuthActions, dispatch);
+}
+
+const HydratedApp = connect(mapStateToProps, mapDispatchToProps)(App);
+
 const store = Store({});
 
 export default () => (
   <Provider store={store}>
-    <App />
+    <HydratedApp />
   </Provider>
 );
