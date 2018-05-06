@@ -4,7 +4,7 @@ import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font } from 'expo';
 import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
 
-import RootNavigation from './navigation/RootNavigation';
+import RootNavigator from './navigation/RootNavigator';
 import { SpinnerOverlay } from './components/base';
 import Store from './Store';
 
@@ -80,7 +80,7 @@ class App extends React.Component {
       <View style={styles.container}>
         <SpinnerOverlay />
         {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-        <RootNavigation />
+        <RootNavigator />
       </View>
     );
   }
