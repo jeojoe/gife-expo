@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-
 import { Colors } from '../constants';
 
 class ExploreTab extends Component {
