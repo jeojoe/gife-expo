@@ -1,5 +1,5 @@
 import React from 'react';
-import { Provider } from 'redux';
+import { Provider } from 'react-redux';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font } from 'expo';
 import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
