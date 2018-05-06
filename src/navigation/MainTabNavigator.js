@@ -8,17 +8,22 @@ import Colors from '../constants/Colors';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import { ExploreTab, GifeTab, RewardTab, ProfileTab } from '../screens';
+
 
 export default TabNavigator(
   {
-    Home: {
-      screen: HomeScreen,
+    ExploreTab: {
+      screen: ExploreTab,
     },
-    Links: {
-      screen: LinksScreen,
+    GifeTab: {
+      screen: GifeTab,
     },
-    Settings: {
-      screen: SettingsScreen,
+    RewardTab: {
+      screen: RewardTab,
+    },
+    ProfileTab: {
+      screen: ProfileTab,
     },
   },
   {
