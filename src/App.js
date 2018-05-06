@@ -1,8 +1,12 @@
 import React from 'react';
+import { Provider } from 'redux';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font } from 'expo';
 import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
+
 import RootNavigation from './navigation/RootNavigation';
+import { SpinnerOverlay } from './components/base';
+import Store from './Store';
 
 const styles = StyleSheet.create({
   container: {
@@ -11,7 +15,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class App extends React.Component {
+class App extends React.Component {
   state = {
     isAppReady: false,
   };
@@ -74,9 +78,18 @@ export default class App extends React.Component {
 
     return (
       <View style={styles.container}>
+        <SpinnerOverlay />
         {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
         <RootNavigation />
       </View>
     );
   }
 }
+
+const store = Store({});
+
+export default () => (
+  <Provider store={store}>
+    <App />
+  </Provider>
+);
