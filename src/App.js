@@ -8,6 +8,7 @@ import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import RootNavigator from './navigation/RootNavigator';
 import { SpinnerOverlay } from './components/base';
 import { Auth } from './services';
+import { LoginScreen } from './screens';
 import * as AuthActions from './actions/auth';
 import Store from './Store';
 
@@ -81,7 +82,7 @@ class App extends React.Component {
       <View style={styles.container}>
         <SpinnerOverlay />
         {!this.props.isLoggedIn ?
-          null
+          <LoginScreen />
           :
           <RootNavigator />
         }
