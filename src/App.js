@@ -53,8 +53,8 @@ class App extends React.Component {
     // await AuthServices.setInvitationCode('lolcode');
     // await AuthServices.setToken('token');
     // Dummy : delete
-    // await AuthServices.deleteInvitationCode();
-    // await AuthServices.deleteToken();
+    await Auth.deleteInvitationCode();
+    await Auth.deleteToken();
 
     const token = await Auth.getToken();
     const code = await Auth.getInvitationCode();
@@ -69,24 +69,22 @@ class App extends React.Component {
     }
 
     console.log('Finish load resources async!');
-
     this.setState({ isAppReady: true });
   }
 
   render() {
-    console.log(this.props.isLoggedIn);
-
     if (!this.state.isAppReady && !this.props.skipLoadingScreen) {
-      return (
-        <AppLoading />
-      );
+      return <AppLoading />;
     }
 
     return (
       <View style={styles.container}>
         <SpinnerOverlay />
-        {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-        <RootNavigator />
+        {!this.props.isLoggedIn ?
+          null
+          :
+          <RootNavigator />
+        }
       </View>
     );
   }
