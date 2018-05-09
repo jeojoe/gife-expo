@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { View, Text, Platform, StatusBar } from 'react-native';
 import styled from 'styled-components';
 
-import { randomBg } from '../libs/assets';
+import { AssetUtils } from '../utils';
+import { BaseActions, AuthActions } from '../actions';
 
 const Wrapper = styled.ImageBackground`
   flex: 1;
@@ -18,12 +20,29 @@ class LoginScreen extends Component {
   render() {
     return (
       <Wrapper
-        source={randomBg()}
+        source={AssetUtils.randomBg()}
         resizeMode="cover"
       >
+        <StatusBar
+          translucent
+          animated
+          barStyle="light-content"
+        />
+
       </Wrapper>
     );
   }
 }
 
-export default LoginScreen;
+function mapStateToProps(state) {
+  return {
+
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return {
+
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);

@@ -1,5 +1,10 @@
-import * as Assets from './Assets';
+/**
+ * Namespace
+ * ${filename begin with uppercase }Utils
+ */
+
+import * as AssetUtils from './asset';
 
 export {
-  Assets,
+  AssetUtils,
 };

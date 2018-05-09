@@ -8,8 +8,10 @@ import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 
 // Impore reducers
-import * as BaseReducers from './reducers/base';
-import * as AuthReducers from './reducers/auth';
+import {
+  BaseReducers,
+  AuthReducers,
+} from './reducers';
 
 const middlewares = [thunk, logger];
 const reducers = combineReducers({

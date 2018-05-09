@@ -1,5 +1,10 @@
-import * as Auth from './Auth';
+/**
+ * Namespace
+ * ${filename begin with uppercase}Services
+ */
+
+import * as AuthServices from './auth';
 
 export {
-  Auth,
+  AuthServices,
 };

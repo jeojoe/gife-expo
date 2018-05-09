@@ -5,11 +5,11 @@ import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font } from 'expo';
 import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
 
-import RootNavigator from './navigation/RootNavigator';
+import { RootNavigator } from './navigation';
 import { SpinnerOverlay } from './components/base';
-import { Auth } from './services';
+import { AuthServices } from './services';
 import { LoginScreen } from './screens';
-import * as AuthActions from './actions/auth';
+import { AuthActions } from './actions';
 import Store from './Store';
 
 const styles = StyleSheet.create({
@@ -54,11 +54,11 @@ class App extends React.Component {
     // await AuthServices.setInvitationCode('lolcode');
     // await AuthServices.setToken('token');
     // Dummy : delete
-    await Auth.deleteInvitationCode();
-    await Auth.deleteToken();
+    await AuthServices.deleteInvitationCode();
+    await AuthServices.deleteToken();
 
-    const token = await Auth.getToken();
-    const code = await Auth.getInvitationCode();
+    const token = await AuthServices.getToken();
+    const code = await AuthServices.getInvitationCode();
     console.log('token: ', token);
     console.log('invitation code: ', code);
 

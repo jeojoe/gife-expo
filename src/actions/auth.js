@@ -1,5 +1,5 @@
 import { ActionTypes } from '../constants';
-import { Auth } from '../services';
+import { AuthServices } from '../services';
 
 export function setIsLoggedIn(isLoggedIn) {
   return {
@@ -11,7 +11,7 @@ export function setIsLoggedIn(isLoggedIn) {
 export function setInvitationCode(invitationCode) {
   return async (dispatch) => {
     try {
-      await Auth.setInvitationCode(invitationCode);
+      await AuthServices.setInvitationCode(invitationCode);
       dispatch({
         type: ActionTypes.SET_INVITATION_CODE,
         invitationCode,

@@ -1,5 +1,5 @@
 import { SecureStore } from 'expo';
-import * as API from './Api';
+import * as API from './api';
 
 export function setToken(token) {
   return SecureStore.setItemAsync('token', token);

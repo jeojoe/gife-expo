@@ -12,8 +12,7 @@ export function mock() {
 
 export async function get(url) {
   return request
-    .get(genEndpoint(url))
-    // .set('token', token);
+    .get(genEndpoint(url)); // .set('token', token);
 }
 
 export function post(url, body) {
