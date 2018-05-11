@@ -4,26 +4,21 @@ import { Provider, connect } from 'react-redux';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font } from 'expo';
 import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
+import styled from 'styled-components';
 
 import { RootNavigator } from './navigation';
 import { SpinnerOverlay } from './components/base';
 import { AuthServices } from './services';
 import { LoginScreen } from './screens';
-import { AuthActions } from './actions';
+import { AuthActions, BaseActions } from './actions';
 import Store from './Store';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-});
+const Wrapper = styled.View`
+  flex: 1;
+  background-color: #fff;
+`;
 
 class App extends React.Component {
-  state = {
-    isAppReady: false,
-  };
-
   async componentDidMount() {
     await Asset.loadAsync([
       // require('./Global/assets/images/robot-dev.png'),
@@ -70,23 +65,23 @@ class App extends React.Component {
     }
 
     console.log('Finish load resources async!');
-    this.setState({ isAppReady: true });
+    this.props.setAppReady(true);
   }
 
   render() {
-    if (!this.state.isAppReady && !this.props.skipLoadingScreen) {
+    if (!this.props.isAppReady && !this.props.skipLoadingScreen) {
       return <AppLoading />;
     }
 
     return (
-      <View style={styles.container}>
+      <Wrapper>
         <SpinnerOverlay />
         {!this.props.isLoggedIn ?
           <LoginScreen />
           :
           <RootNavigator />
         }
-      </View>
+      </Wrapper>
     );
   }
 }
@@ -95,10 +90,15 @@ class App extends React.Component {
 function mapStateToProps(state) {
   return {
     isLoggedIn: state.isLoggedIn,
+    isAppReady: state.isAppReady,
   };
 }
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(AuthActions, dispatch);
+  return {
+    setInvitationCode: code => dispatch(AuthActions.setInvitationCode(code)),
+    setIsLoggedIn: bool => dispatch(AuthActions.setIsLoggedIn(bool)),
+    setAppReady: bool => dispatch(BaseActions.setAppReady(bool)),
+  };
 }
 
 const HydratedApp = connect(mapStateToProps, mapDispatchToProps)(App);
