@@ -13,3 +13,10 @@ export function endLoading() {
     isLoading: false,
   };
 }
+
+export function setAppReady(bool) {
+  return {
+    type: ActionTypes.SET_APP_READY,
+    isAppReady: bool,
+  };
+}
