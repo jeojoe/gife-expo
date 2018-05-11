@@ -1,7 +1,7 @@
-import Logo from './Logo';
+import LogoSmall from './LogoSmall';
 import SpinnerOverlay from './SpinnerOverlay';
 
 export {
-  Logo,
+  LogoSmall,
   SpinnerOverlay,
 };
