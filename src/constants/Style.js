@@ -1,4 +1,5 @@
 export default {
   // Horizontal padding
-  padHoriz: 20,
+  padHoriz: '7%',
+  padHorizThick: '12%',
 };
