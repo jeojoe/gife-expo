@@ -49,8 +49,8 @@ class App extends React.Component {
     // await AuthServices.setInvitationCode('lolcode');
     // await AuthServices.setToken('token');
     // Dummy : delete
-    await AuthServices.deleteInvitationCode();
-    await AuthServices.deleteToken();
+    // await AuthServices.deleteInvitationCode();
+    // await AuthServices.deleteToken();
 
     const token = await AuthServices.getToken();
     const code = await AuthServices.getInvitationCode();
