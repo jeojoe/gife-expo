@@ -4,6 +4,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-navigation';
 
 import { Wrapper, HeaderText, HeaderTextFront, TopSpacer } from '../components/styled';
+import { SpotlightCarousel } from '../components/challenge';
 import { Colors } from '../constants';
 import { ChallengeServices } from '../services';
 
@@ -61,6 +62,11 @@ class ExploreTab extends Component {
               โดดเด่นและแนะนำ
             </HeaderTextFront>
           </HeaderText>
+          <SpotlightCarousel
+            challenges={[
+              1, 2, 3, 4, 5,
+            ]}
+          />
         </ScrollView>
       </Wrapper>
     );
