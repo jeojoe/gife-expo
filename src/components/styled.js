@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Platform } from 'react-native';
 
 import { Style, Colors } from '../constants';
 import logoWhiteTrans from '../assets/images/logo-white-trans.png';
@@ -16,10 +17,17 @@ function getPadHoriz(padHoriz) {
 }
 
 // Layout
+export const TopSpacer = styled.View`
+  height: ${props => props.height || Platform.select({
+    ios: 30,
+    android: 45,
+  })};
+`;
 export const Wrapper = styled.View`
   flex: 1;
   /* Horizontal padding */
   padding-horizontal: ${props => getPadHoriz(props.padHoriz)};
+  background-color: ${props => props.bgColor || 'transparent'}
 `;
 
 export const WrapperImage = styled.ImageBackground.attrs({
@@ -45,6 +53,15 @@ export const BodyText = styled.Text`
   font-size: 16;
   color: ${props => props.color || '#222'};
   margin-bottom: ${props => props.marginBottom || 0};
+`;
+export const HeaderText = BodyText.extend`
+  font-size: 24;
+  padding-horizontal: 32;
+  font-family: 'th-fancy-regular';
+`;
+export const HeaderTextFront = HeaderText.extend`
+  color: ${Colors.textGrey};
+  padding-horizontal: 0;
 `;
 
 // Input

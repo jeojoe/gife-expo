@@ -4,7 +4,9 @@
  */
 
 import * as AuthServices from './auth';
+import * as ChallengeServices from './challenge';
 
 export {
   AuthServices,
+  ChallengeServices,
 };

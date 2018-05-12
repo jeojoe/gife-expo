@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { Text, StatusBar, ScrollView } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
+import { SafeAreaView } from 'react-navigation';
+
+import { Wrapper, HeaderText, HeaderTextFront, TopSpacer } from '../components/styled';
 import { Colors } from '../constants';
+import { ChallengeServices } from '../services';
 
 class ExploreTab extends Component {
   static navigationOptions = {
@@ -16,11 +20,49 @@ class ExploreTab extends Component {
     ),
   }
 
+  state = {
+    nearby: [],
+    sections: [],
+    spotlight: [],
+  }
+
+  componentDidMount() {
+    this._navListener = this.props.navigation.addListener('didFocus', () => {
+      StatusBar.setBarStyle('dark-content');
+    });
+
+    // Get user me
+    // ProfileServices.getMe()
+    //   .then(res => console.log(res))
+    //   .catch(err => console.log(err))
+    ChallengeServices.getExplore()
+      .then((res) => {
+        this.setState({
+          nearby: res.body.nearby,
+          sections: res.body.sections,
+          spotlight: res.body.spotlight,
+        });
+      });
+  }
+
+  componentWillUnmount() {
+    this._navListener.remove();
+  }
+
   render() {
     return (
-      <View>
-        <Text>ExploreTab</Text>
-      </View>
+      <Wrapper bgColor={Colors.bgGrey}>
+        <ScrollView>
+          <TopSpacer />
+          <HeaderText>
+            ภารกิจ
+            {' '}
+            <HeaderTextFront>
+              โดดเด่นและแนะนำ
+            </HeaderTextFront>
+          </HeaderText>
+        </ScrollView>
+      </Wrapper>
     );
   }
 }
