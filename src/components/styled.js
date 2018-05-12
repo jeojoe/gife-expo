@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { Style } from '../constants';
+import { Style, Colors } from '../constants';
 import logoWhiteTrans from '../assets/images/logo-white-trans.png';
 
 // Helpers
@@ -35,4 +35,27 @@ export const Logo = styled.Image.attrs({
 })`
   width: ${props => props.height * 2.3957894737};
   height: ${props => props.height};
+`;
+
+// Text
+export const BrandText = styled.Text`
+  font-family: 'brand';
+`;
+export const BodyText = styled.Text`
+  font-size: 16;
+  color: ${props => props.color || '#222'};
+  margin-bottom: ${props => props.marginBottom || 0};
+`;
+
+// Input
+export const GifeInput = styled.TextInput.attrs({
+  placeholderTextColor: Colors.textOnLightPink,
+  underlineColorAndroid: 'transparent',
+})`
+  font-size: 16;
+  padding-horizontal: 15;
+  padding-vertical: 10;
+  border-radius: 5;
+  color: ${props => (props.textColor || '#fff')};
+  background-color: ${props => (props.bgColor || Colors.lightPink)};
 `;
