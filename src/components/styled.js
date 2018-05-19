@@ -76,3 +76,18 @@ export const GifeInput = styled.TextInput.attrs({
   color: ${props => (props.textColor || '#fff')};
   background-color: ${props => (props.bgColor || Colors.lightPink)};
 `;
+
+// Button (or TouchableOpacity)
+export const TouchableOpacityShadow = styled.TouchableOpacity`
+  ${Platform.select({
+    ios: `
+      shadow-color: ${props => props.shadowColor || '#000'};
+      shadow-offset: { width: 0, height: 5 };
+      shadow-opacity: 1;
+      shadow-radius: 5;
+    `,
+    android: `
+      elevation: 10;
+    `,
+  })}
+`;

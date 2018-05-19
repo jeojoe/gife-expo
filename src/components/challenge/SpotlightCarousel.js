@@ -2,10 +2,12 @@ import React from 'react';
 import { Dimensions, Text } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 
+import ChallengeCardJumbo from './ChallengeCardJumbo';
+
 const { width: windowWidth } = Dimensions.get('window');
 
 function renderItems(items, index) {
-  return <Text key={index}>lol</Text>;
+  return <ChallengeCardJumbo />;
 }
 
 const SpotlightCarousel = ({ challenges }) => {
