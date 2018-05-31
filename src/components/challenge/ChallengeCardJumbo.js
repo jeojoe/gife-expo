@@ -1,14 +1,23 @@
 import React from 'react';
-import { Text } from 'react-native';
-import styled from 'styled-components';
+import { Text, TouchableOpacity, Platform } from 'react-native';
 
-import { TouchableOpacityShadow } from '../styled';
-
-const ChallengeCardJumbo = () => {
+const ChallengeCardJumbo = ({ shadowColor }) => {
   return (
-    <TouchableOpacityShadow>
+    <TouchableOpacity
+      style={Platform.select({
+        ios: {
+          shadowColor,
+          shadowOffset: { width: 0, height: 0 },
+          shadowOpacity: 1,
+          shadowRadius: 5,
+        },
+        android: {
+          elevation: 10,
+        },
+      })}
+    >
       <Text>lsdkfl;sdfsdlfk</Text>
-    </TouchableOpacityShadow>
+    </TouchableOpacity>
   );
 };
 

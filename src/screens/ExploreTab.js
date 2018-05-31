@@ -43,7 +43,8 @@ class ExploreTab extends Component {
           sections: res.body.sections,
           spotlight: res.body.spotlight,
         });
-      });
+      })
+      .catch(err => console.error('Error: getExplore in ExploreTab', err));
   }
 
   componentWillUnmount() {

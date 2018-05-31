@@ -1,22 +1,22 @@
-import request from 'superagent';
 import Config from '../../app.json';
 
-function genEndpoint(url) {
-  return `${Config.gife.API_URL}/${url}`;
+function genEndpoint(apiId) {
+  return `https://${apiId}/${Config.gife.LAMBDA_URL}/stag`;
 }
 
 export function mock() {
-  return request
-    .get('http://www.mocky.io/v2/5a996cbf2e0000e331553680');
+  return fetch('http://www.mocky.io/v2/5a996cbf2e0000e331553680')
+    .then(res => res.json());
 }
 
-export async function get(url) {
-  return request
-    .get(genEndpoint(url)); // .set('token', token);
+export function get(url) {
+  return fetch(genEndpoint(url));
 }
 
 export function post(url, body) {
-  return request
-    .post(genEndpoint(url))
-    .send(body);
+  return fetch(genEndpoint(url), {
+    method: 'POST',
+    body,
+  })
+    .then(res => res.json());
 }
