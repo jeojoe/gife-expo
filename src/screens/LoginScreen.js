@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { FontAwesome } from '@expo/vector-icons';
 import { Facebook } from 'expo';
+import { Auth } from 'aws-amplify';
 
 import { WrapperImage, Wrapper, Logo as LogoBase, BodyText, GifeInput } from '../components/styled';
 import { Button } from '../components/base';
@@ -41,23 +42,22 @@ class LoginScreen extends Component {
     // Todo: modal bug
     this.props.startLoading();
     AuthServices.verifyInvitationCode(this.state.invitationCode)
-      // Success
       .then(() => {
         this.props.endLoading();
         this.props.setInvitationCode(this.state.invitationCode);
       })
-      // Error
       .catch((err) => {
         this.props.endLoading();
-        console.warn(err);
+        console.log(err);
         setTimeout(() => alert(AlertMessages.INVITATION_CODE_REJECTED), 500);
       });
   }
 
   _login = async () => {
-    const { type, token: accessToken } = await Facebook.logInWithReadPermissionsAsync(Config.expo.facebookAppId, {
-      permissions: ['public_profile', 'email', 'user_friends'],
-    });
+    const { type, token: accessToken } = await Facebook.logInWithReadPermissionsAsync(
+      Config.expo.facebookAppId,
+      { permissions: ['public_profile', 'email', 'user_friends'] },
+    );
 
     if (type === 'success') {
       this.props.startLoading();
@@ -116,7 +116,8 @@ class LoginScreen extends Component {
         <ScrollWrapper padHoriz="thick">
           <Logo height={70} />
           <BodyText color="white" marginBottom={30}>
-            Welcome to beta testing! Complete travel challenges to get reward from us 🎁 Every feedbacks are appreciated!
+            Welcome to beta testing! Complete travel challenges to
+            get reward from us 🎁  Every feedbacks are appreciated!
           </BodyText>
           <LoginButton
             text="Login with Facebook"

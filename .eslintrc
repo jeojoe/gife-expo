@@ -25,6 +25,7 @@
     "react/require-default-props": 1,
     "react/jsx-max-props-per-line": 0,
     "jsx-a11y/accessible-emoji": 0,
-    "react/no-did-mount-set-state": 0
+    "react/no-did-mount-set-state": 0,
+    "no-alert": 0
   }
 }
