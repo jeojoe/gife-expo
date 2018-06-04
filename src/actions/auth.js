@@ -1,5 +1,12 @@
 import { ActionTypes } from '../constants';
-import { AuthServices } from '../services';
+import { AuthServices, Firebase } from '../services';
+
+export function loginFacebook(accessToken) {
+  return async (dispatch) => {
+    const credential = Firebase.auth.FacebookAuthProvider.credential(accessToken);
+    await Firebase.auth().signInAndRetrieveDataWithCredential(credential);
+  }
+}
 
 export function setIsLoggedIn(isLoggedIn) {
   return {

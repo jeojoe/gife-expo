@@ -26,7 +26,7 @@ export function deleteInvitationCode() {
 }
 
 export function verifyInvitationCode(code) {
-  return API.get(`api/auth/invitation?code=${code}`);
+  return API.get(`auth/invitation?code=${code}`);
 }
 
 export async function loginOAuth(accessToken) {

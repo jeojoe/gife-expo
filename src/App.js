@@ -1,7 +1,5 @@
 import React from 'react';
-import { bindActionCreators } from 'redux';
 import { Provider, connect } from 'react-redux';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font } from 'expo';
 import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import styled from 'styled-components';

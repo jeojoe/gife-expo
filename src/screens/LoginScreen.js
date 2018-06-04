@@ -5,13 +5,12 @@ import styled from 'styled-components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { FontAwesome } from '@expo/vector-icons';
 import { Facebook } from 'expo';
-import { Auth } from 'aws-amplify';
 
 import { WrapperImage, Wrapper, Logo as LogoBase, BodyText, GifeInput } from '../components/styled';
 import { Button } from '../components/base';
 import { AssetUtils } from '../utils';
 import { BaseActions, AuthActions } from '../actions';
-import { AuthServices } from '../services';
+import { AuthServices, Firebase } from '../services';
 import { AlertMessages, Colors } from '../constants';
 import Config from '../../app.json';
 
@@ -62,9 +61,11 @@ class LoginScreen extends Component {
     if (type === 'success') {
       this.props.startLoading();
       try {
-        const res = await AuthServices.loginOAuth(accessToken);
-        console.log(res);
-        this._loginSuccess('facebook', res.body.token);
+        const credential = Firebase.auth.FacebookAuthProvider.credential(accessToken);
+        await Firebase.auth().signInAndRetrieveDataWithCredential(credential);
+
+        console.log('Successfully sign in', credential);
+        this._loginSuccess('facebook');
       } catch (err) {
         console.warn(err);
         alert(AlertMessages.NETWORK_ERR);
@@ -74,9 +75,9 @@ class LoginScreen extends Component {
     }
   }
 
-  _loginSuccess = async (type, token) => {
-    console.log(token);
-    await AuthServices.setToken(token);
+  _loginSuccess = async (type) => {
+    // console.log(token);
+    // await AuthServices.setToken(token);
     if (type === 'facebook') {
       console.log('Logged in: FB');
     }
