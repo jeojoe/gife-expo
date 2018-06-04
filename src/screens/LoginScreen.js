@@ -37,19 +37,17 @@ class LoginScreen extends Component {
     invitationCode: '',
   }
 
-  _verifyCode = () => {
+  _verifyCode = async () => {
     // Todo: modal bug
     this.props.startLoading();
-    AuthServices.verifyInvitationCode(this.state.invitationCode)
-      .then(() => {
-        this.props.endLoading();
-        this.props.setInvitationCode(this.state.invitationCode);
-      })
-      .catch((err) => {
-        this.props.endLoading();
-        console.log(err);
-        setTimeout(() => alert(AlertMessages.INVITATION_CODE_REJECTED), 500);
-      });
+    try {
+      await AuthServices.verifyInvitationCode(this.state.invitationCode);
+      this.props.setInvitationCode(this.state.invitationCode);
+    } catch (err) {
+      setTimeout(() => alert(AlertMessages.INVITATION_CODE_REJECTED), 500);
+    } finally {
+      this.props.endLoading();
+    }
   }
 
   _login = async () => {
@@ -69,7 +67,6 @@ class LoginScreen extends Component {
         throw Error('Facebook login failed');
       }
     } catch (err) {
-      console.log(err);
       alert(AlertMessages.NETWORK_ERR);
     } finally {
       this.props.endLoading();
@@ -80,7 +77,7 @@ class LoginScreen extends Component {
     // console.log(token);
     // await AuthServices.setToken(token);
     if (type === 'facebook') {
-      console.log('Logged in: FB');
+      // console.log('Logged in: FB');
     }
     this.props.setIsLoggedIn(true);
   }
