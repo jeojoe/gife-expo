@@ -50,24 +50,23 @@ class LoginScreen extends Component {
     }
   }
 
-  _login = async () => {
+  _loginFacebook = async () => {
     try {
-      this.props.startLoading();
-
       const { type, token: accessToken } = await Facebook.logInWithReadPermissionsAsync(
         Config.expo.facebookAppId,
         { permissions: ['public_profile', 'email', 'user_friends'] },
       );
 
       if (type === 'success') {
-        const credential = Firebase.auth.FacebookAuthProvider.credential(accessToken);
-        await Firebase.auth().signInAndRetrieveDataWithCredential(credential);
+        this.props.startLoading();
+        await this.props.loginFacebook(accessToken);
         this._loginSuccess('facebook');
       } else {
         throw Error('Facebook login failed');
       }
     } catch (err) {
-      alert(AlertMessages.NETWORK_ERR);
+      console.log(err);
+      setTimeout(() => alert(AlertMessages.NETWORK_ERR), 1000);
     } finally {
       this.props.endLoading();
     }
@@ -120,7 +119,8 @@ class LoginScreen extends Component {
           </BodyText>
           <LoginButton
             text="Login with Facebook"
-            onPress={this._login}
+            // onPress={this._loginFacebook}
+            onPress={() => console.log(Firebase.auth().currentUser)}
             bgColor="white"
             icon={<FontAwesome name="facebook-square" color={Colors.main} size={22} />}
             textStyle={{ fontWeight: '600' }}

@@ -1,8 +1,8 @@
 import { ActionTypes } from '../constants';
 
-export function setAuthUser(authUser) {
+export function setCurrentUser(currentUser) {
   return {
-    type: ActionTypes.SET_AUTH_USER,
-    authUser,
+    type: ActionTypes.SET_CURRENT_USER,
+    currentUser,
   };
 }

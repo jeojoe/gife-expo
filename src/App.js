@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import { RootNavigator } from './navigation';
 import { SpinnerOverlay } from './components/base';
-import { AuthServices } from './services';
+import { AuthServices, Firebase } from './services';
 import { LoginScreen } from './screens';
 import { AuthActions, BaseActions } from './actions';
 import Store from './Store';
@@ -50,17 +50,17 @@ class App extends React.Component {
     // await AuthServices.deleteInvitationCode();
     // await AuthServices.deleteToken();
 
-    const token = await AuthServices.getToken();
+    // const token = await AuthServices.getToken();
     const code = await AuthServices.getInvitationCode();
-    console.log('token: ', token);
+    console.log('currentUser: ', this.props.currentUser);
     console.log('invitation code: ', code);
 
     if (code) this.props.setInvitationCode(code);
-    if (token) {
-      this.props.setIsLoggedIn(true);
-    } else {
-      this.props.setIsLoggedIn(false);
-    }
+    // if (token) {
+    //   this.props.setIsLoggedIn(true);
+    // } else {
+    //   this.props.setIsLoggedIn(false);
+    // }
 
     console.log('Finish load resources async!');
     this.props.setAppReady(true);
@@ -74,7 +74,7 @@ class App extends React.Component {
     return (
       <Wrapper>
         <SpinnerOverlay />
-        {!this.props.isLoggedIn ?
+        {!this.props.currentUser ?
           <LoginScreen />
           :
           <RootNavigator />
@@ -87,6 +87,7 @@ class App extends React.Component {
 // Redux
 function mapStateToProps(state) {
   return {
+    currentUser: state.currentUser,
     isLoggedIn: state.isLoggedIn,
     isAppReady: state.isAppReady,
   };
@@ -101,7 +102,9 @@ function mapDispatchToProps(dispatch) {
 
 const HydratedApp = connect(mapStateToProps, mapDispatchToProps)(App);
 
-const store = Store({});
+const store = Store({
+  currentUser: Firebase.auth().currentUser,
+});
 
 export default () => (
   <Provider store={store}>

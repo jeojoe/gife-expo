@@ -4,12 +4,10 @@ import { AuthServices, Firebase } from '../services';
 import { UserActions } from '../actions';
 
 export function loginFacebook(accessToken) {
-  return async (dispatch) => {
+  return (dispatch) => {
     const credential = Firebase.auth.FacebookAuthProvider.credential(accessToken);
-    const authUserData = await Firebase.auth().signInAndRetrieveDataWithCredential(credential);
-    console.log('== this is auth user data ==', authUserData);
-
-    dispatch(UserActions.setAuthUser(authUserData));
+    return Firebase.auth().signInAndRetrieveDataWithCredential(credential)
+      .then(currentUserData => dispatch(UserActions.setCurrentUser(currentUserData)));
   };
 }
 

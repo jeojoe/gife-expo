@@ -11,12 +11,14 @@ import logger from 'redux-logger';
 import {
   BaseReducers,
   AuthReducers,
+  UserReducers,
 } from './reducers';
 
 const middlewares = [thunk, logger];
 const reducers = combineReducers({
   ...BaseReducers,
   ...AuthReducers,
+  ...UserReducers,
 });
 
 export default (initialState) => {
