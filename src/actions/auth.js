@@ -1,11 +1,16 @@
 import { ActionTypes } from '../constants';
 import { AuthServices, Firebase } from '../services';
 
+import { UserActions } from '../actions';
+
 export function loginFacebook(accessToken) {
   return async (dispatch) => {
     const credential = Firebase.auth.FacebookAuthProvider.credential(accessToken);
-    await Firebase.auth().signInAndRetrieveDataWithCredential(credential);
-  }
+    const authUserData = await Firebase.auth().signInAndRetrieveDataWithCredential(credential);
+    console.log('== this is auth user data ==', authUserData);
+
+    dispatch(UserActions.setAuthUser(authUserData));
+  };
 }
 
 export function setIsLoggedIn(isLoggedIn) {

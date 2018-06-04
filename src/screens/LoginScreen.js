@@ -53,25 +53,26 @@ class LoginScreen extends Component {
   }
 
   _login = async () => {
-    const { type, token: accessToken } = await Facebook.logInWithReadPermissionsAsync(
-      Config.expo.facebookAppId,
-      { permissions: ['public_profile', 'email', 'user_friends'] },
-    );
-
-    if (type === 'success') {
+    try {
       this.props.startLoading();
-      try {
+
+      const { type, token: accessToken } = await Facebook.logInWithReadPermissionsAsync(
+        Config.expo.facebookAppId,
+        { permissions: ['public_profile', 'email', 'user_friends'] },
+      );
+
+      if (type === 'success') {
         const credential = Firebase.auth.FacebookAuthProvider.credential(accessToken);
         await Firebase.auth().signInAndRetrieveDataWithCredential(credential);
-
-        console.log('Successfully sign in', credential);
         this._loginSuccess('facebook');
-      } catch (err) {
-        console.warn(err);
-        alert(AlertMessages.NETWORK_ERR);
-      } finally {
-        this.props.endLoading();
+      } else {
+        throw Error('Facebook login failed');
       }
+    } catch (err) {
+      console.log(err);
+      alert(AlertMessages.NETWORK_ERR);
+    } finally {
+      this.props.endLoading();
     }
   }
 
@@ -161,6 +162,7 @@ function mapDispatchToProps(dispatch) {
   return {
     setInvitationCode: code => dispatch(AuthActions.setInvitationCode(code)),
     setIsLoggedIn: bool => dispatch(AuthActions.setIsLoggedIn(bool)),
+    loginFacebook: accessToken => dispatch(AuthActions.loginFacebook(accessToken)),
     startLoading: () => dispatch(BaseActions.startLoading()),
     endLoading: () => dispatch(BaseActions.endLoading()),
   };
