@@ -10,7 +10,6 @@ import { AuthServices, UserServices } from './services';
 import { LoginScreen } from './screens';
 import { AuthActions, BaseActions, UserActions } from './actions';
 import Store from './Store';
-import './utils/ReactotronConfig';
 
 const Wrapper = styled.View`
   flex: 1;
