@@ -6,9 +6,9 @@ import styled from 'styled-components';
 
 import { RootNavigator } from './navigation';
 import { SpinnerOverlay } from './components/base';
-import { AuthServices, Firebase } from './services';
+import { AuthServices, UserServices } from './services';
 import { LoginScreen } from './screens';
-import { AuthActions, BaseActions } from './actions';
+import { AuthActions, BaseActions, UserActions } from './actions';
 import Store from './Store';
 
 const Wrapper = styled.View`
@@ -43,24 +43,20 @@ class App extends React.Component {
       'th-fancy-medium': require('./assets/fonts/NotoSansThaiUI-Medium.ttf'),
     });
 
-    // Dummy : create
-    // await AuthServices.setInvitationCode('lolcode');
-    // await AuthServices.setToken('token');
-    // Dummy : delete
-    // await AuthServices.deleteInvitationCode();
-    // await AuthServices.deleteToken();
-
-    // const token = await AuthServices.getToken();
+    // Check invitation code
     const code = await AuthServices.getInvitationCode();
-    console.log('currentUser: ', this.props.currentUser);
-    console.log('invitation code: ', code);
+    if (code) {
+      this.props.setInvitationCode(code);
+      // Invited -> check current user
+      const currentUser = await UserServices.getCurrentUser();
+      this.props.setCurrentUser(currentUser);
 
-    if (code) this.props.setInvitationCode(code);
-    // if (token) {
-    //   this.props.setIsLoggedIn(true);
-    // } else {
-    //   this.props.setIsLoggedIn(false);
-    // }
+      if (currentUser) {
+        this.props.setIsLoggedIn(true);
+      } else {
+        this.props.setIsLoggedIn(false);
+      }
+    }
 
     console.log('Finish load resources async!');
     this.props.setAppReady(true);
@@ -74,7 +70,7 @@ class App extends React.Component {
     return (
       <Wrapper>
         <SpinnerOverlay />
-        {!this.props.currentUser ?
+        {!this.props.isLoggedIn ?
           <LoginScreen />
           :
           <RootNavigator />
@@ -87,13 +83,13 @@ class App extends React.Component {
 // Redux
 function mapStateToProps(state) {
   return {
-    currentUser: state.currentUser,
     isLoggedIn: state.isLoggedIn,
     isAppReady: state.isAppReady,
   };
 }
 function mapDispatchToProps(dispatch) {
   return {
+    setCurrentUser: currentUser => dispatch(UserActions.setCurrentUser(currentUser)),
     setInvitationCode: code => dispatch(AuthActions.setInvitationCode(code)),
     setIsLoggedIn: bool => dispatch(AuthActions.setIsLoggedIn(bool)),
     setAppReady: bool => dispatch(BaseActions.setAppReady(bool)),
@@ -102,9 +98,7 @@ function mapDispatchToProps(dispatch) {
 
 const HydratedApp = connect(mapStateToProps, mapDispatchToProps)(App);
 
-const store = Store({
-  currentUser: Firebase.auth().currentUser,
-});
+const store = Store({});
 
 export default () => (
   <Provider store={store}>

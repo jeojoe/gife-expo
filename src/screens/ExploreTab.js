@@ -36,15 +36,15 @@ class ExploreTab extends Component {
     // ProfileServices.getMe()
     //   .then(res => console.log(res))
     //   .catch(err => console.log(err))
-    ChallengeServices.getExplore()
-      .then((res) => {
-        this.setState({
-          nearby: res.body.nearby,
-          sections: res.body.sections,
-          spotlight: res.body.spotlight,
-        });
-      })
-      .catch(err => console.error('Error: getExplore in ExploreTab', err));
+    // ChallengeServices.getExplore()
+    //   .then((res) => {
+    //     this.setState({
+    //       nearby: res.body.nearby,
+    //       sections: res.body.sections,
+    //       spotlight: res.body.spotlight,
+    //     });
+    //   })
+    //   .catch(err => console.error('Error: getExplore in ExploreTab', err));
   }
 
   componentWillUnmount() {

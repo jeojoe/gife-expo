@@ -10,7 +10,7 @@ import { WrapperImage, Wrapper, Logo as LogoBase, BodyText, GifeInput } from '..
 import { Button } from '../components/base';
 import { AssetUtils } from '../utils';
 import { BaseActions, AuthActions } from '../actions';
-import { AuthServices, Firebase } from '../services';
+import { AuthServices } from '../services';
 import { AlertMessages, Colors } from '../constants';
 import Config from '../../app.json';
 
@@ -119,8 +119,7 @@ class LoginScreen extends Component {
           </BodyText>
           <LoginButton
             text="Login with Facebook"
-            // onPress={this._loginFacebook}
-            onPress={() => console.log(Firebase.auth().currentUser)}
+            onPress={this._loginFacebook}
             bgColor="white"
             icon={<FontAwesome name="facebook-square" color={Colors.main} size={22} />}
             textStyle={{ fontWeight: '600' }}
