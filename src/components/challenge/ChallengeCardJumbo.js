@@ -1,22 +1,34 @@
 import React from 'react';
-import { Text, TouchableOpacity, Platform } from 'react-native';
+import { TouchableOpacity, Platform } from 'react-native';
+import styled from 'styled-components';
 
-const ChallengeCardJumbo = ({ shadowColor }) => {
+import { Style, Layout, Colors } from '../../constants';
+
+const cardWidth = Layout.window.width * Style.spotlightScreenWidthRatio;
+
+const Wrapper = styled.View`
+  width: ${cardWidth};
+  height: ${cardWidth};
+  background-color: red;
+  border-radius: 10;
+`;
+
+const ChallengeCardJumbo = () => {
   return (
     <TouchableOpacity
       style={Platform.select({
         ios: {
-          shadowColor,
-          shadowOffset: { width: 0, height: 0 },
+          shadowColor: Colors.shadow,
+          shadowOffset: { width: 0, height: 5 },
           shadowOpacity: 1,
-          shadowRadius: 5,
+          shadowRadius: 10,
         },
         android: {
           elevation: 10,
         },
       })}
     >
-      <Text>lsdkfl;sdfsdlfk</Text>
+      <Wrapper />
     </TouchableOpacity>
   );
 };

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Text, StatusBar, ScrollView } from 'react-native';
+import { StatusBar, ScrollView } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-import { SafeAreaView } from 'react-navigation';
 
 import { Wrapper, HeaderText, HeaderTextFront, TopSpacer } from '../components/styled';
 import { SpotlightCarousel } from '../components/challenge';

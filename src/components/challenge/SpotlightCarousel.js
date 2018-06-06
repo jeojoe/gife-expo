@@ -1,10 +1,8 @@
 import React from 'react';
-import { Dimensions, Text } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 
 import ChallengeCardJumbo from './ChallengeCardJumbo';
-
-const { width: windowWidth } = Dimensions.get('window');
+import { Style, Layout } from '../../constants';
 
 function renderItems(items, index) {
   return <ChallengeCardJumbo />;
@@ -15,11 +13,15 @@ const SpotlightCarousel = ({ challenges }) => {
     <Carousel
       data={challenges}
       renderItem={renderItems}
-      sliderWidth={windowWidth}
-      itemWidth={windowWidth * 0.865}
-      containerCustomStyle={{ marginBottom: 30 }}
+      sliderWidth={Layout.window.width}
+      itemWidth={Layout.window.width * Style.spotlightScreenWidthRatio}
+      containerCustomStyle={{
+        marginBottom: 30,
+        paddingTop: 15,
+        paddingBottom: 25, /* For shadow */
+      }}
     />
   );
-}
+};
 
 export default SpotlightCarousel;

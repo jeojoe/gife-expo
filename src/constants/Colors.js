@@ -42,7 +42,7 @@ export default {
   rating: '#FFD12E',
 
   // shadow
-  shadow: 'rgba(129,129,129,.5)',
+  shadow: 'rgba(0,0,0,.29)',
 
   // Old
   tintColor,

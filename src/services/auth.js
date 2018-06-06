@@ -26,7 +26,9 @@ export function deleteInvitationCode() {
 }
 
 export function verifyInvitationCode(code) {
-  return API.get(`auth/invitation?code=${code}`);
+  // return API.get(`auth/invitation?code=${code}`);
+  // Temp no internet
+  return new Promise(resolve => resolve('lol'));
 }
 
 export async function loginOAuth(accessToken) {
