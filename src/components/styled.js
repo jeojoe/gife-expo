@@ -23,6 +23,7 @@ export const TopSpacer = styled.View`
     android: 45,
   })};
 `;
+
 export const Wrapper = styled.View`
   flex: 1;
   /* Horizontal padding */
@@ -49,20 +50,24 @@ export const Logo = styled.Image.attrs({
 export const BrandText = styled.Text`
   font-family: 'brand';
 `;
+
 export const BodyText = styled.Text`
   font-size: 16;
   color: ${props => props.color || '#222'};
   margin-bottom: ${props => props.marginBottom || 0};
 `;
+
 export const HeaderText = BodyText.extend`
   font-size: 24;
   padding-horizontal: 32;
   font-family: 'th-fancy-regular';
 `;
+
 export const HeaderTextFront = HeaderText.extend`
   color: ${Colors.textGrey};
   padding-horizontal: 0;
 `;
+
 export const PlaceHolderTextGrey = BodyText.extend`
   color: '#999';
 `;
