@@ -1,8 +1,16 @@
 import React, { Component } from 'react';
-import { StatusBar, ScrollView } from 'react-native';
+import { StatusBar, ScrollView, Alert, ActivityIndicator } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
+import Reactotron from 'reactotron-react-native';
 
-import { Wrapper, HeaderText, HeaderTextFront, TopSpacer } from '../components/styled';
+import {
+  Wrapper,
+  HeaderText,
+  HeaderTextFront,
+  TopSpacer,
+  PlaceHolderTextGrey,
+  BodyText,
+} from '../components/styled';
 import { SpotlightCarousel } from '../components/challenge';
 import { Colors } from '../constants';
 import { ChallengeServices } from '../services';
@@ -21,12 +29,13 @@ class ExploreTab extends Component {
   }
 
   state = {
-    nearby: [],
-    sections: [],
+    isLoading: true,
+    isFail: false,
+    types: [],
     spotlight: [],
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this._navListener = this.props.navigation.addListener('didFocus', () => {
       StatusBar.setBarStyle('dark-content');
     });
@@ -35,15 +44,19 @@ class ExploreTab extends Component {
     // ProfileServices.getMe()
     //   .then(res => console.log(res))
     //   .catch(err => console.log(err))
-    // ChallengeServices.getExplore()
-    //   .then((res) => {
-    //     this.setState({
-    //       nearby: res.body.nearby,
-    //       sections: res.body.sections,
-    //       spotlight: res.body.spotlight,
-    //     });
-    //   })
-    //   .catch(err => console.error('Error: getExplore in ExploreTab', err));
+    try {
+      const res = await ChallengeServices.getExplore();
+      this.setState({
+        isFail: false,
+        spotlight: res.spotlight,
+        types: res.types,
+      });
+    } catch (err) {
+      this.setState({ isFail: true });
+      Alert.alert('Error', 'Network\'s problem. Please check your internet connection.');
+    } finally {
+      this.setState({ isLoading: false });
+    }
   }
 
   componentWillUnmount() {
@@ -55,18 +68,28 @@ class ExploreTab extends Component {
       <Wrapper bgColor={Colors.bgGrey}>
         <ScrollView>
           <TopSpacer />
-          <HeaderText>
-            ภารกิจ
-            {' '}
-            <HeaderTextFront>
-              โดดเด่นและแนะนำ
-            </HeaderTextFront>
-          </HeaderText>
-          <SpotlightCarousel
-            challenges={[
-              1, 2, 3, 4, 5,
-            ]}
-          />
+          {this.state.isLoading &&
+            <ActivityIndicator />
+          }
+          {!this.state.isLoading && this.state.isFail &&
+            <PlaceHolderTextGrey>Oops, Something Went Wrong! 😭</PlaceHolderTextGrey>
+          }
+          {!this.state.isLoading && !this.state.isFail &&
+            <React.Fragment>
+              <HeaderText>
+                Spotlight
+                {' '}
+                <HeaderTextFront>
+                  Challenges
+                </HeaderTextFront>
+              </HeaderText>
+              <SpotlightCarousel
+                challenges={this.state.spotlight}
+              />
+              {this.state.types.map(type =>
+                <BodyText key={type.type_id}>{type.type_title}</BodyText>)}
+            </React.Fragment>
+          }
         </ScrollView>
       </Wrapper>
     );

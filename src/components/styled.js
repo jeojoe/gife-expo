@@ -63,6 +63,9 @@ export const HeaderTextFront = HeaderText.extend`
   color: ${Colors.textGrey};
   padding-horizontal: 0;
 `;
+export const PlaceHolderTextGrey = BodyText.extend`
+  color: '#999';
+`;
 
 // Input
 export const GifeInput = styled.TextInput.attrs({

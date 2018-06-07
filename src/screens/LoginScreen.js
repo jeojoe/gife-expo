@@ -59,6 +59,7 @@ class LoginScreen extends Component {
 
       if (type === 'success') {
         this.props.startLoading();
+        // TODO: await?
         await this.props.loginFacebook(accessToken);
         this._loginSuccess('facebook');
       } else {

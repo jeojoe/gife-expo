@@ -1,5 +1,5 @@
 import * as API from './api';
 
 export function getExplore() {
-  return API.get('api/challenge/explore');
+  return API.get('challenge/explore');
 }

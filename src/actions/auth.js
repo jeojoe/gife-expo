@@ -7,7 +7,9 @@ export function loginFacebook(accessToken) {
   return (dispatch) => {
     const credential = Firebase.auth.FacebookAuthProvider.credential(accessToken);
     return Firebase.auth().signInAndRetrieveDataWithCredential(credential)
-      .then(currentUserData => dispatch(UserActions.setCurrentUser(currentUserData)));
+      .then((currentUserData) => {
+        dispatch(UserActions.setCurrentUser(currentUserData));
+      });
   };
 }
 
