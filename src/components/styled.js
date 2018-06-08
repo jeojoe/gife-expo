@@ -69,7 +69,7 @@ export const HeaderTextFront = HeaderText.extend`
 `;
 
 export const PlaceHolderTextGrey = BodyText.extend`
-  color: '#999';
+  color: #999;
 `;
 
 // Input

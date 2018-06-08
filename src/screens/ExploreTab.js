@@ -86,8 +86,11 @@ class ExploreTab extends Component {
               <SpotlightCarousel
                 challenges={this.state.spotlight}
               />
-              {this.state.types.map(type =>
-                <BodyText key={type.type_id}>{type.type_title}</BodyText>)}
+              {this.state.types.map(type => (
+                <Wrapper padHoriz="base" key={type.type_id}>
+                  <PlaceHolderTextGrey>{type.type_title}</PlaceHolderTextGrey>
+                </Wrapper>
+              ))}
             </React.Fragment>
           }
         </ScrollView>

@@ -14,6 +14,7 @@ const Icon = styled(MaterialIcons)`
 const Text = styled.Text`
   font-size: 13;
   color: ${props => props.color || '#000'};
+  font-weight: 700;
 `;
 
 const LocationLabel = ({ text, color }) => {
