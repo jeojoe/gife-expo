@@ -9,6 +9,7 @@ import { RatingLabel, TimerLabel, LocationLabel } from '../base';
 
 const cardWidth = 180;
 
+// Styled components
 const WrapperTop = styled.ImageBackground`
   width: ${cardWidth};
   height: ${cardWidth * 0.9};

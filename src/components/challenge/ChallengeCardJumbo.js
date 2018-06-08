@@ -9,6 +9,7 @@ import { RatingLabel, TimerLabel, LocationLabel } from '../base';
 
 const cardWidth = Layout.window.width * Style.spotlightScreenWidthRatio;
 
+// Styled components
 const Wrapper = styled.ImageBackground`
   width: ${cardWidth};
   height: ${cardWidth};

@@ -5,7 +5,6 @@ import ChallengeCardJumbo from './ChallengeCardJumbo';
 import { Style, Layout } from '../../constants';
 
 function renderChallenges({ item: challenge }) {
-  console.log(challenge);
   return (
     <ChallengeCardJumbo
       key={challenge.id}

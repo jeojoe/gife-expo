@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 import { Colors } from '../../constants';
 
+// Styled components
 const Wrapper = styled(LinearGradient)`
   height: 52;
   border-radius: 5;

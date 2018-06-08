@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { MaterialIcons } from '@expo/vector-icons';
 
+// Styled components
 const Wrapper = styled.View`
   flex-direction: row;
   justify-content: flex-start;

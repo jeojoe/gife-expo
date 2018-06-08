@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { FontAwesome } from '@expo/vector-icons';
 import { Colors } from '../../constants';
 
+// Styled components
 const Wrapper = styled.View`
   flex-direction: row;
   justify-content: flex-start;
