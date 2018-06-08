@@ -1,8 +1,8 @@
-import React from 'react';
-import Carousel from 'react-native-snap-carousel';
+import React, { Component } from 'react';
+import Carousel, { Pagination } from 'react-native-snap-carousel';
 
 import ChallengeCardJumbo from './ChallengeCardJumbo';
-import { Style, Layout } from '../../constants';
+import { Style, Layout, Colors } from '../../constants';
 
 function renderChallenges({ item: challenge }) {
   return (
@@ -18,20 +18,56 @@ function renderChallenges({ item: challenge }) {
   );
 }
 
-const SpotlightCarousel = ({ challenges }) => {
-  return (
-    <Carousel
-      data={challenges}
-      renderItem={renderChallenges}
-      sliderWidth={Layout.window.width}
-      itemWidth={Layout.window.width * Style.spotlightScreenWidthRatio}
-      containerCustomStyle={{
-        marginBottom: 30,
-        paddingTop: 15,
-        paddingBottom: 25, /* For shadow */
-      }}
-    />
-  );
-};
+class SpotlightCarousel extends Component {
+  state = {
+    activeIndex: 0,
+  }
+
+  get pagination() {
+    const { challenges } = this.props;
+    const { activeIndex } = this.state;
+    return (
+      <Pagination
+        dotsLength={challenges.length}
+        activeDotIndex={activeIndex}
+        dotStyle={{
+            width: 10,
+            height: 10,
+            borderRadius: 5,
+            marginHorizontal: 2,
+            backgroundColor: Colors.main,
+        }}
+        inactiveDotStyle={{
+            backgroundColor: '#000',
+        }}
+        containerStyle={{
+          marginTop: -25,
+        }}
+        inactiveDotOpacity={0.4}
+        inactiveDotScale={0.6}
+      />
+    );
+  }
+
+  render() {
+    const { challenges } = this.props;
+    return (
+      <React.Fragment>
+        <Carousel
+          data={challenges}
+          renderItem={renderChallenges}
+          sliderWidth={Layout.window.width}
+          itemWidth={Layout.window.width * Style.spotlightScreenWidthRatio}
+          containerCustomStyle={{
+            paddingTop: 20,
+            paddingBottom: 20, /* For shadow */
+          }}
+          onSnapToItem={activeIndex => this.setState({ activeIndex })}
+        />
+        {this.pagination}
+      </React.Fragment>
+    );
+  }
+}
 
 export default SpotlightCarousel;
