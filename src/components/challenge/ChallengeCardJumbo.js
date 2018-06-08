@@ -5,9 +5,7 @@ import styled from 'styled-components';
 import { FontAwesome } from '@expo/vector-icons';
 
 import { Style, Layout, Colors } from '../../constants';
-import { RatingLabel } from '../base';
-import TimerLabel from './TimerLabel';
-import LocationLabel from './LocationLabel';
+import { RatingLabel, TimerLabel, LocationLabel } from '../base';
 
 const cardWidth = Layout.window.width * Style.spotlightScreenWidthRatio;
 
