@@ -15,7 +15,7 @@ const Wrapper = styled.ImageBackground`
   border-radius: 15;
   overflow: hidden;
   justify-content: flex-end;
-  background-color: ${Colors.textGrey}
+  background-color: ${Colors.textGrey};
 `;
 const ButtomRowWrapper = styled.View`
   flex-direction: row;
