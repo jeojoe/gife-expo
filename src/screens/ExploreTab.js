@@ -77,11 +77,11 @@ class ExploreTab extends Component {
           {!this.state.isLoading && !this.state.isFail &&
             <React.Fragment>
               <HeaderText>
-                Spotlight
-                {' '}
                 <HeaderTextFront>
-                  Challenges
+                  ภารกิจ
                 </HeaderTextFront>
+                {' '}
+                โดดเด่นและแนะนำ
               </HeaderText>
               <SpotlightCarousel
                 challenges={this.state.spotlight}
