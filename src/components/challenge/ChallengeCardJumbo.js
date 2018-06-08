@@ -31,7 +31,7 @@ const GradientWrapper = styled(LinearGradient)`
   padding-bottom: 15;
   padding-horizontal: 6%;
 `;
-const HeaderText = styled.Text`
+const TitleText = styled.Text`
   color: #fff;
   font-size: 27;
   margin-bottom: 5;
@@ -39,7 +39,6 @@ const HeaderText = styled.Text`
 `;
 const RewardWrapper = styled(LinearGradient)`
   height: 43;
-  background-color: red;
   padding-horizontal: 6%;
   align-items: center;
   flex-direction: row;
@@ -91,7 +90,7 @@ const ChallengeCardJumbo = ({
           colors={['transparent', 'rgba(0,0,0,.9)']}
           start={[0.5, 0]} end={[0.5, 1]}
         >
-          <HeaderText>{title}</HeaderText>
+          <TitleText>{title}</TitleText>
           <ButtomRowWrapper>
             <LocationLabel
               text={locationLabel}

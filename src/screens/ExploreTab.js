@@ -10,13 +10,20 @@ import {
   TopSpacer,
   PlaceHolderTextGrey,
 } from '../components/styled';
-import { SpotlightCarousel } from '../components/challenge';
-import { Colors } from '../constants';
+import { SpotlightCarousel, ChallengeCard } from '../components/challenge';
+import { Colors, Style } from '../constants';
 import { ChallengeServices } from '../services';
 
 // Styled components
 const ChallengeTypeWrapper = styled.View`
-  margin-bottom: 30;
+  margin-bottom: 20;
+`;
+const ChallengeCardWrapper = styled.View`
+  margin-right: 15;
+  padding-vertical: 15; // For shadow
+`;
+const FlatListSpacer = styled.View`
+  width: ${Style.padHorizThick};
 `;
 
 class ExploreTab extends Component {
@@ -102,12 +109,27 @@ class ExploreTab extends Component {
                     {type.type_title}
                   </HeaderText>
                   <FlatList
-                    data={type.challenges}
+                    data={[
+                      { flatListSpacer: true, id: 'spacer-front' },
+                      ...type.challenges,
+                      { flatListSpacer: true, id: 'spacer-back' },
+                    ]}
                     keyExtractor={item => item.id}
                     renderItem={({ item }) => (
-                      <HeaderText key={item.id}>
-                        {item.title}
-                      </HeaderText>
+                      item.flatListSpacer ?
+                        <FlatListSpacer />
+                        :
+                        <ChallengeCardWrapper>
+                          <ChallengeCard
+                            key={item.id}
+                            title={item.title}
+                            bannerImageUrl={item.banner_image_url}
+                            locationLabel={item.location_label}
+                            rating={item.rating}
+                            rewardId={item.reward_id}
+                            rewardGifePoints={item.reward_gife_points}
+                          />
+                        </ChallengeCardWrapper>
                     )}
                     horizontal
                   />
