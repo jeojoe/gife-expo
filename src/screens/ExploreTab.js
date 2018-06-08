@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { StatusBar, ScrollView, Alert, ActivityIndicator } from 'react-native';
+import { StatusBar, ScrollView, Alert, ActivityIndicator, FlatList } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-import Reactotron from 'reactotron-react-native';
+import styled from 'styled-components';
 
 import {
   Wrapper,
@@ -9,11 +9,15 @@ import {
   HeaderTextFront,
   TopSpacer,
   PlaceHolderTextGrey,
-  BodyText,
 } from '../components/styled';
 import { SpotlightCarousel } from '../components/challenge';
 import { Colors } from '../constants';
 import { ChallengeServices } from '../services';
+
+// Styled components
+const ChallengeTypeWrapper = styled.View`
+  margin-bottom: 30;
+`;
 
 class ExploreTab extends Component {
   static navigationOptions = {
@@ -76,6 +80,7 @@ class ExploreTab extends Component {
           }
           {!this.state.isLoading && !this.state.isFail &&
             <React.Fragment>
+              {/* Spotlight */}
               <HeaderText>
                 <HeaderTextFront>
                   ภารกิจ
@@ -86,11 +91,29 @@ class ExploreTab extends Component {
               <SpotlightCarousel
                 challenges={this.state.spotlight}
               />
+              {/* Challenge types */}
               {this.state.types.map(type => (
-                <Wrapper padHoriz="base" key={type.type_id}>
-                  <PlaceHolderTextGrey>{type.type_title}</PlaceHolderTextGrey>
-                </Wrapper>
-              ))}
+                <ChallengeTypeWrapper key={type.type_id}>
+                  <HeaderText>
+                    <HeaderTextFront>
+                      ภารกิจ
+                    </HeaderTextFront>
+                    {' '}
+                    {type.type_title}
+                  </HeaderText>
+                  <FlatList
+                    data={type.challenges}
+                    keyExtractor={item => item.id}
+                    renderItem={({ item }) => (
+                      <HeaderText key={item.id}>
+                        {item.title}
+                      </HeaderText>
+                    )}
+                    horizontal
+                  />
+                </ChallengeTypeWrapper>
+              ))
+              }
             </React.Fragment>
           }
         </ScrollView>
