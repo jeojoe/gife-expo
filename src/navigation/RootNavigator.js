@@ -3,12 +3,18 @@ import React from 'react';
 import { StackNavigator } from 'react-navigation';
 
 import MainTabNavigator from './MainTabNavigator';
+import {
+  ChallengeScreen,
+} from '../screens';
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
 
 const RootStackNavigator = StackNavigator(
   {
     Main: {
       screen: MainTabNavigator,
+    },
+    Challenge: {
+      screen: ChallengeScreen,
     },
   },
   {

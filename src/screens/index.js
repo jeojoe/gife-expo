@@ -4,6 +4,7 @@ import GifeTab from './GifeTab';
 import ProfileTab from './ProfileTab';
 import RewardTab from './RewardTab';
 import LoginScreen from './LoginScreen';
+import ChallengeScreen from './ChallengeScreen';
 
 export {
   // Tabs
@@ -12,4 +13,5 @@ export {
   ProfileTab,
   RewardTab,
   LoginScreen,
+  ChallengeScreen,
 };

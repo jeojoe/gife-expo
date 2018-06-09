@@ -3,6 +3,7 @@ import { TouchableOpacity, Platform } from 'react-native';
 import { LinearGradient } from 'expo';
 import styled from 'styled-components';
 import { FontAwesome } from '@expo/vector-icons';
+import { withNavigation } from 'react-navigation';
 
 import { Style, Layout, Colors } from '../../constants';
 import { RatingLabel, TimerLabel, LocationLabel } from '../base';
@@ -66,6 +67,7 @@ const ChallengeCardJumbo = ({
   rewardId,
   rewardTitle,
   rewardGifePoints,
+  navigation,
 }) => {
   return (
     <TouchableOpacity
@@ -80,6 +82,7 @@ const ChallengeCardJumbo = ({
           elevation: 10,
         },
       })}
+      onPress={() => navigation.navigate('Challenge')}
     >
       <Wrapper
         source={{ uri: bannerImageUrl }}
@@ -118,4 +121,4 @@ const ChallengeCardJumbo = ({
   );
 };
 
-export default ChallengeCardJumbo;
+export default withNavigation(ChallengeCardJumbo);
