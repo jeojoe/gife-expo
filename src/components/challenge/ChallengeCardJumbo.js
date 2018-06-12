@@ -19,7 +19,7 @@ const Wrapper = styled.ImageBackground`
   justify-content: flex-end;
   background-color: ${Colors.textGrey};
 `;
-const ButtomRowWrapper = styled.View`
+const BottomRowWrapper = styled.View`
   flex-direction: row;
   justify-content: space-between;
 `;
@@ -96,7 +96,7 @@ const ChallengeCardJumbo = ({
           start={[0.5, 0]} end={[0.5, 1]}
         >
           <TitleText>{title}</TitleText>
-          <ButtomRowWrapper>
+          <BottomRowWrapper>
             <LocationLabel
               text={locationLabel}
               color="#fff"
@@ -104,7 +104,7 @@ const ChallengeCardJumbo = ({
             <RatingLabel
               rating={rating}
             />
-          </ButtomRowWrapper>
+          </BottomRowWrapper>
         </GradientWrapper>
         <RewardWrapper
           colors={[Colors.rewardBgLeft, Colors.rewardBgRight]}

@@ -22,7 +22,7 @@ const WrapperTop = styled.ImageBackground`
 const WrapperBottom = styled.View`
   padding-horizontal: 4;
 `;
-const ButtomRowWrapper = styled.View`
+const BottomRowWrapper = styled.View`
   flex-direction: row;
   justify-content: space-between;
 `;
@@ -105,7 +105,7 @@ const ChallengeCard = ({
       {/* Detail */}
       <WrapperBottom>
         <TitleText>{title}</TitleText>
-        <ButtomRowWrapper>
+        <BottomRowWrapper>
           <LocationLabel
             text={locationLabel}
             color={Colors.textGrey}
@@ -113,7 +113,7 @@ const ChallengeCard = ({
           <RatingLabel
             rating={rating}
           />
-        </ButtomRowWrapper>
+        </BottomRowWrapper>
       </WrapperBottom>
     </TouchableOpacity>
   );
