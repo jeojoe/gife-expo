@@ -1,186 +1,201 @@
-/*
- * This example demonstrates how to use ParallaxScrollView within a ScrollView component.
- */
 import React, { Component } from 'react';
-import {
-  Dimensions,
-  Image,
-  ListView,
-  PixelRatio,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-
+import { Image, StyleSheet, Text, View, Alert, ListView, ActivityIndicator } from 'react-native';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
+import styled from 'styled-components';
+
+import { BackButton, TimerLabel, LocationLabel, RatingLabel } from '../components/base';
+import { PlaceHolderTextGrey } from '../components/styled';
+import { ChallengeServices } from '../services';
+import { Layout, Colors } from '../constants';
+
+const ROW_HEIGHT = 60;
+const PARALLAX_HEADER_HEIGHT = 350;
+const STICKY_HEADER_HEIGHT = 70;
+// Styled components
+const Row = styled.View`
+  overflow: hidden;
+  padding-horizontal: 10;
+  height: ${ROW_HEIGHT};
+  background-color: white;
+  border-color: #ccc;
+  border-bottom-width: 1;
+  justify-content: center;
+`;
+const RowText = styled.Text`
+  font-size: 20;
+`;
+const ListViewWrapper = styled.ListView`
+  flex: 1;
+  background-color: green;
+`;
+const ForegroundWrapper = styled.View`
+  align-items: center;
+  flex: 1;
+  justify-content: center;
+  padding-horizontal: 20;
+`;
+const ForegroundContentWrapper = styled.View`
+  align-items: center;
+`;
+const ForegroundTitleText = styled.Text`
+  color: #fff;
+  font-size: 36;
+  padding-vertical: 5;
+  font-weight: bold;
+`;
+const FixedWrapper = styled.View`
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: ${STICKY_HEADER_HEIGHT};
+  width: ${Layout.window.width};
+  padding-bottom: 10;
+  padding-horizontal: 12;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+  background-color: transparent;
+`;
+const BottomRowWrapper = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+`;
 
 class Talks extends Component {
   static navigationOptions = {
     header: null,
   }
-  constructor(props) {
-    super(props);
-    this.state =  {
-      dataSource: new ListView.DataSource({
-        rowHasChanged: (r1, r2) => r1 !== r2
-      }).cloneWithRows([
-        'Simplicity Matters',
-        'Hammock Driven Development',
-        'Value of Values',
-        'Are We There Yet?',
-        'The Language of the System',
-        'Design, Composition, and Performance',
-        'Clojure core.async',
-        'The Functional Database',
-        'Deconstructing the Database',
-        'Hammock Driven Development',
-        'Value of Values'
-      ])
-    };
+  state = {
+    isLoading: true,
+    isFail: false,
+    challenge: null,
+    dataSource: new ListView.DataSource({
+      rowHasChanged: (r1, r2) => r1 !== r2,
+    }).cloneWithRows([
+      'Simplicity Matters',
+      'Hammock Driven Development',
+      'Value of Values',
+      'Are We There Yet?',
+      'The Language of the System',
+      'Design, Composition, and Performance',
+      'Clojure core.async',
+      'The Functional Database',
+      'Deconstructing the Database',
+      'Hammock Driven Development',
+      'Value of Values',
+    ]),
+  }
+
+  async componentDidMount() {
+    try {
+      const { challengeId } = this.props.navigation.state.params;
+      const { challenge } = await ChallengeServices.getChallenge(challengeId);
+      this.setState({ challenge });
+    } catch (err) {
+      this.setState({ isFail: true });
+      setTimeout(() => Alert.alert('Error', 'Fail loading challenge data. Please check your internet connection!'));
+    } finally {
+      this.setState({ isLoading: false });
+    }
   }
 
   render() {
-    const { onScroll = () => {} } = this.props;
+    if (this.state.isLoading) return <ActivityIndicator />;
+    if (this.state.isFail) {
+      return (
+        <PlaceHolderTextGrey>
+          Network error! Please try again
+        </PlaceHolderTextGrey>
+      );
+    }
+
+    const { challenge } = this.state;
     return (
-      <ListView
-        ref="ListView"
-        style={styles.container}
-        dataSource={ this.state.dataSource }
-        renderRow={(rowData) => (
-          <View key={rowData} style={ styles.row }>
-            <Text style={ styles.rowText }>
-              { rowData }
-            </Text>
-          </View>
+      <ListViewWrapper
+        backgroundColor={Colors.main}
+        dataSource={this.state.dataSource}
+        renderRow={rowData => (
+          <Row>
+            <RowText>{ rowData }</RowText>
+          </Row>
          )}
         renderScrollComponent={props => (
           <ParallaxScrollView
-            onScroll={onScroll}
-
-            headerBackgroundColor="#333"
-            stickyHeaderHeight={ STICKY_HEADER_HEIGHT }
-            parallaxHeaderHeight={ PARALLAX_HEADER_HEIGHT }
+            backgroundColor={Colors.main}
+            stickyHeaderHeight={STICKY_HEADER_HEIGHT}
+            parallaxHeaderHeight={PARALLAX_HEADER_HEIGHT}
             backgroundSpeed={10}
-
             renderBackground={() => (
-              <View key="background">
-                <Image source={{uri: 'https://i.ytimg.com/vi/P-NZei5ANaQ/maxresdefault.jpg',
-                                width: window.width,
-                                height: PARALLAX_HEADER_HEIGHT}}/>
-                <View style={{position: 'absolute',
-                              top: 0,
-                              width: window.width,
-                              backgroundColor: 'rgba(0,0,0,.4)',
-                              height: PARALLAX_HEADER_HEIGHT}}/>
+              <View>
+                <Image
+                  source={{
+                    uri: challenge.banner_image_url,
+                    width: Layout.window.width,
+                    height: PARALLAX_HEADER_HEIGHT,
+                  }}
+                />
+                <View
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    width: Layout.window.width,
+                    backgroundColor: 'rgba(0,0,0,.4)',
+                    height: PARALLAX_HEADER_HEIGHT,
+                  }}
+                />
               </View>
             )}
-
             renderForeground={() => (
-              <View key="parallax-header" style={ styles.parallaxHeader }>
-                <Image style={ styles.avatar } source={{
-                  uri: 'https://pbs.twimg.com/profile_images/2694242404/5b0619220a92d391534b0cd89bf5adc1_400x400.jpeg',
-                  width: AVATAR_SIZE,
-                  height: AVATAR_SIZE
-                }}/>
-                <Text style={ styles.sectionSpeakerText }>
-                  Talks by Rich Hickey
-                </Text>
-                <Text style={ styles.sectionTitleText }>
-                  CTO of Cognitec, Creator of Clojure
-                </Text>
-              </View>
+              <ForegroundWrapper>
+                <ForegroundContentWrapper>
+                  <View>
+                    <TimerLabel daysLeft={2} />
+                  </View>
+                  <ForegroundTitleText>{challenge.title}</ForegroundTitleText>
+                  <BottomRowWrapper>
+                    <LocationLabel
+                      text={challenge.location_label}
+                      color="#fff"
+                    />
+                    {/* Spacer */}
+                    <View style={{ width: 15 }} />
+                    <RatingLabel
+                      rating={challenge.rating}
+                    />
+                  </BottomRowWrapper>
+                </ForegroundContentWrapper>
+              </ForegroundWrapper>
             )}
-
-            renderStickyHeader={() => (
-              <View key="sticky-header" style={styles.stickySection}>
-                <Text style={styles.stickySectionText}>Rich Hickey Talks</Text>
-              </View>
-            )}
-
+            renderStickyHeader={() => <View />} // For header background fade in
             renderFixedHeader={() => (
-              <View key="fixed-header" style={styles.fixedSection}>
-                <Text style={styles.fixedSectionText}
-                      onPress={() => this.refs.ListView.scrollTo({ x: 0, y: 0 })}>
-                  Scroll to top
-                </Text>
-              </View>
-            )}/>
+              <FixedWrapper>
+                <BackButton
+                  onPress={() => this.props.navigation.goBack()}
+                />
+              </FixedWrapper>
+            )}
+          />
         )}
       />
     );
   }
 }
 
-const window = Dimensions.get('window');
-
-const AVATAR_SIZE = 120;
-const ROW_HEIGHT = 60;
-const PARALLAX_HEADER_HEIGHT = 350;
-const STICKY_HEADER_HEIGHT = 70;
-
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: 'black'
   },
   background: {
     position: 'absolute',
     top: 0,
     left: 0,
-    width: window.width,
-    height: PARALLAX_HEADER_HEIGHT
-  },
-  stickySection: {
-    height: STICKY_HEADER_HEIGHT,
-    width: 300,
-    justifyContent: 'flex-end'
+    width: Layout.window.width,
+    height: PARALLAX_HEADER_HEIGHT,
   },
   stickySectionText: {
     color: 'white',
     fontSize: 20,
-    margin: 10
+    margin: 10,
   },
-  fixedSection: {
-    position: 'absolute',
-    bottom: 10,
-    right: 10
-  },
-  fixedSectionText: {
-    color: '#999',
-    fontSize: 20
-  },
-  parallaxHeader: {
-    alignItems: 'center',
-    flex: 1,
-    flexDirection: 'column',
-    paddingTop: 100
-  },
-  avatar: {
-    marginBottom: 10,
-    borderRadius: AVATAR_SIZE / 2
-  },
-  sectionSpeakerText: {
-    color: 'white',
-    fontSize: 24,
-    paddingVertical: 5
-  },
-  sectionTitleText: {
-    color: 'white',
-    fontSize: 18,
-    paddingVertical: 5
-  },
-  row: {
-    overflow: 'hidden',
-    paddingHorizontal: 10,
-    height: ROW_HEIGHT,
-    backgroundColor: 'white',
-    borderColor: '#ccc',
-    borderBottomWidth: 1,
-    justifyContent: 'center'
-  },
-  rowText: {
-    fontSize: 20
-  }
 });
 
 export default Talks;

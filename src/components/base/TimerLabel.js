@@ -10,6 +10,7 @@ const Wrapper = styled.View`
   align-items: center;
   padding-horizontal: 12;
   flex-direction: row;
+  align-self: flex-start;
 `;
 const Text = styled.Text`
   color: #fff;
