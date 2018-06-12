@@ -3,6 +3,7 @@ const tintColor = '#E30560';
 export default {
   // ci
   main: '#E30560',
+  featherMain: '#ffebf4',
   mainDark: '#B90152',
   rewardBgRight: '#F572B4',
   rewardBgLeft: '#EF1D6B',
