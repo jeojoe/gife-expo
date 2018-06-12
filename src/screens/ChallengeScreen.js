@@ -1,21 +1,19 @@
 import React, { Component } from 'react';
-import { Image, StyleSheet, Text, View, Alert, ListView, ActivityIndicator } from 'react-native';
+import { Image, StyleSheet, Text, View, Alert, ListView, ActivityIndicator, StatusBar } from 'react-native';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import styled from 'styled-components';
 
 import { BackButton, TimerLabel, LocationLabel, RatingLabel } from '../components/base';
+import { ChallengeDurationLabel } from '../components/challenge';
 import { PlaceHolderTextGrey } from '../components/styled';
 import { ChallengeServices } from '../services';
 import { Layout, Colors } from '../constants';
 
-const ROW_HEIGHT = 60;
 const PARALLAX_HEADER_HEIGHT = 350;
 const STICKY_HEADER_HEIGHT = 70;
 // Styled components
 const Row = styled.View`
-  overflow: hidden;
-  padding-horizontal: 10;
-  height: ${ROW_HEIGHT};
+  padding-horizontal: 5%;
   background-color: white;
   border-color: #ccc;
   border-bottom-width: 1;
@@ -117,6 +115,10 @@ class Talks extends Component {
         rowContent: () => (
           <View>
             <Text>{challengeData.goal_description}</Text>
+            <ChallengeDurationLabel
+              durationText={challengeData.duration_title}
+              endDate={challengeData.end_date}
+            />
           </View>
         ),
       },
@@ -188,6 +190,7 @@ class Talks extends Component {
             )}
             renderForeground={() => (
               <ForegroundWrapper>
+                <StatusBar barStyle="light-content" />
                 <ForegroundContentWrapper>
                   <View>
                     <TimerLabel daysLeft={2} />
