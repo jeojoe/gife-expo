@@ -61,6 +61,7 @@ const RewardText = styled.Text`
 
 const ChallengeCardJumbo = ({
   title,
+  id: challengeId,
   bannerImageUrl,
   locationLabel,
   rating,
@@ -82,7 +83,7 @@ const ChallengeCardJumbo = ({
           elevation: 10,
         },
       })}
-      onPress={() => navigation.navigate('Challenge')}
+      onPress={() => navigation.navigate('Challenge', { challengeId })}
     >
       <Wrapper
         source={{ uri: bannerImageUrl }}

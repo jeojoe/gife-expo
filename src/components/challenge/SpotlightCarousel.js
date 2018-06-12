@@ -39,6 +39,7 @@ class SpotlightCarousel extends Component {
     return (
       <ChallengeCardJumbo
         key={challenge.id}
+        id={challenge.id}
         title={challenge.title}
         bannerImageUrl={challenge.banner_image_url}
         locationLabel={challenge.location_label}
