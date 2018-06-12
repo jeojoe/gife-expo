@@ -7,6 +7,7 @@ import { withNavigation } from 'react-navigation';
 
 import { Style, Layout, Colors } from '../../constants';
 import { RatingLabel, TimerLabel, LocationLabel } from '../base';
+import { WrapperPinkGradient } from '../styled';
 
 const cardWidth = Layout.window.width * Style.spotlightScreenWidthRatio;
 

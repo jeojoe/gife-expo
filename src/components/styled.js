@@ -1,3 +1,4 @@
+import { LinearGradient } from 'expo';
 import styled from 'styled-components';
 import { Platform } from 'react-native';
 

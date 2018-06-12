@@ -21,7 +21,7 @@ const Row = styled.View`
   border-bottom-width: 1;
   justify-content: center;
 `;
-const RowText = styled.Text`
+const RowTitle = styled.Text`
   font-size: 20;
 `;
 const ListViewWrapper = styled.ListView`
@@ -42,6 +42,7 @@ const ForegroundTitleText = styled.Text`
   font-size: 36;
   padding-vertical: 5;
   font-weight: bold;
+  text-align: center;
 `;
 const FixedWrapper = styled.View`
   position: absolute;
@@ -69,34 +70,73 @@ class Talks extends Component {
     isLoading: true,
     isFail: false,
     challenge: null,
-    dataSource: new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2,
-    }).cloneWithRows([
-      'Simplicity Matters',
-      'Hammock Driven Development',
-      'Value of Values',
-      'Are We There Yet?',
-      'The Language of the System',
-      'Design, Composition, and Performance',
-      'Clojure core.async',
-      'The Functional Database',
-      'Deconstructing the Database',
-      'Hammock Driven Development',
-      'Value of Values',
-    ]),
+    dataSource: null,
   }
 
   async componentDidMount() {
     try {
       const { challengeId } = this.props.navigation.state.params;
       const { challenge } = await ChallengeServices.getChallenge(challengeId);
-      this.setState({ challenge });
+      if (!challenge) {
+        this.setState({ isFail: true });
+        return;
+      }
+      this.setState({
+        challenge,
+        dataSource: this.generateRows(challenge),
+      });
     } catch (err) {
       this.setState({ isFail: true });
       setTimeout(() => Alert.alert('Error', 'Fail loading challenge data. Please check your internet connection!'));
     } finally {
       this.setState({ isLoading: false });
     }
+  }
+
+  generateRows = (challengeData) => {
+    console.log(challengeData);
+    return new ListView.DataSource({
+      rowHasChanged: (r1, r2) => r1 !== r2,
+    }).cloneWithRows([
+      {
+        rowTitle: 'รางวัลเมื่อทำภารกิจสำเร็จ',
+        rowContent: () => (
+          <View>
+            <Text>
+              {challengeData.reward_id ?
+                challengeData.reward_title
+                :
+                `รับ ${challengeData.reward_gife_points} GIFE POINTS!`
+              }
+            </Text>
+          </View>
+        ),
+      },
+      {
+        rowTitle: 'ภารกิจที่ต้องทำ',
+        rowContent: () => (
+          <View>
+            <Text>{challengeData.goal_description}</Text>
+          </View>
+        ),
+      },
+      {
+        rowTitle: '',
+        rowContent: () => (
+          <View>
+            <Text>Place Cards</Text>
+          </View>
+        ),
+      },
+      {
+        rowTitle: 'รีวิวภารกิจ',
+        rowContent: () => (
+          <View>
+            <Text>Reviews</Text>
+          </View>
+        ),
+      },
+    ]);
   }
 
   render() {
@@ -114,9 +154,10 @@ class Talks extends Component {
       <ListViewWrapper
         backgroundColor={Colors.main}
         dataSource={this.state.dataSource}
-        renderRow={rowData => (
+        renderRow={({ rowTitle, rowContent }) => (
           <Row>
-            <RowText>{ rowData }</RowText>
+            <RowTitle>{rowTitle}</RowTitle>
+            {rowContent()}
           </Row>
          )}
         renderScrollComponent={props => (
