@@ -3,14 +3,14 @@ import styled from 'styled-components';
 import { LinearGradient } from 'expo';
 
 import { LocationLabel, RatingLabel } from '../base';
-import { Colors } from '../../constants';
+import { Colors, Style } from '../../constants';
 
 const cardWidth = 240;
 // Styled components
 const Wrapper = styled.ImageBackground`
   width: ${cardWidth};
-  height: ${cardWidth * 0.75};
-  border-radius: 15;
+  height: ${cardWidth * Style.placeCardRatio};
+  border-radius: 10;
   overflow: hidden;
   justify-content: flex-end;
   background-color: ${Colors.textGrey};

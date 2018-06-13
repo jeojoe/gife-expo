@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { Image, StyleSheet, Text, View, Alert, ListView, ActivityIndicator, StatusBar } from 'react-native';
+import { Image, StyleSheet, FlatList, View, Alert, ListView, ActivityIndicator, StatusBar } from 'react-native';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import styled from 'styled-components';
+import { LinearGradient } from 'expo';
+import { FontAwesome } from '@expo/vector-icons';
 
 import { BackButton, TimerLabel, LocationLabel, RatingLabel } from '../components/base';
 import { ChallengeDurationLabel } from '../components/challenge';
-import { PlaceHolderTextGrey } from '../components/styled';
+import { PlaceCard } from '../components/place';
+import { PlaceHolderTextGrey, FlatListSpacer } from '../components/styled';
 import { ChallengeServices } from '../services';
 import { Layout, Colors } from '../constants';
 
@@ -15,12 +18,17 @@ const STICKY_HEADER_HEIGHT = 70;
 const Row = styled.View`
   padding-horizontal: 5%;
   background-color: white;
-  border-color: #ccc;
-  border-bottom-width: 1;
-  justify-content: center;
+  border-bottom-color: ${Colors.border};
+  border-bottom-width: ${props => (props.noBorderBottom ? 0 : StyleSheet.hairlineWidth)};
+  margin-bottom: ${props => (props.noMarginBottom ? 0 : 20)};
+  align-items: center;
 `;
 const RowTitle = styled.Text`
-  font-size: 20;
+  font-size: 15;
+  font-family: 'th-fancy-medium';
+  margin-bottom: ${props => (props.noMarginBottom ? 0 : 10)};
+  color: ${props => props.color || '#000'};
+  text-align: center;
 `;
 const ListViewWrapper = styled.ListView`
   flex: 1;
@@ -59,6 +67,42 @@ const BottomRowWrapper = styled.View`
   flex-direction: row;
   justify-content: space-between;
 `;
+const GoalText = styled.Text`
+  font-size: 22;
+  margin-bottom: 15;
+`;
+const RewardRowWrapper = styled(LinearGradient)`
+  padding-horizontal: 6%;
+  padding-top: 15;
+  padding-bottom: 20;
+  margin-bottom: 20;
+  align-items: center;
+`;
+const RewardRowTitleWrapper = styled.View`
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 10;
+`;
+const RewardText = styled.Text`
+  color: #fff;
+  font-size: 22;
+  font-weight: bold;
+`;
+const RewardIconWrapper = styled.View`
+  border-radius: 15;
+  background-color: ${Colors.darkPink};
+  height: 30; width: 30;
+  align-items: center;
+  justify-content: center;
+  margin-right: 7;
+  margin-top: 3;
+`;
+const PlaceCardWrapper = styled.View`
+  margin-right: 15;
+  padding-top: 7;
+  padding-bottom: 30;
+`;
+
 
 class Talks extends Component {
   static navigationOptions = {
@@ -68,20 +112,23 @@ class Talks extends Component {
     isLoading: true,
     isFail: false,
     challenge: null,
+    places: null,
     dataSource: null,
   }
 
   async componentDidMount() {
     try {
       const { challengeId } = this.props.navigation.state.params;
-      const { challenge } = await ChallengeServices.getChallenge(challengeId);
+      const { challenge, places } = await ChallengeServices.getChallenge(challengeId);
+      console.log(places);
       if (!challenge) {
         this.setState({ isFail: true });
         return;
       }
       this.setState({
         challenge,
-        dataSource: this.generateRows(challenge),
+        places,
+        dataSource: this.generateRows(challenge, places),
       });
     } catch (err) {
       this.setState({ isFail: true });
@@ -91,7 +138,7 @@ class Talks extends Component {
     }
   }
 
-  generateRows = (challengeData) => {
+  generateRows = (challengeData, placesData) => {
     console.log(challengeData);
     return new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2,
@@ -99,43 +146,80 @@ class Talks extends Component {
       {
         rowTitle: 'รางวัลเมื่อทำภารกิจสำเร็จ',
         rowContent: () => (
-          <View>
-            <Text>
+          <RewardRowWrapper
+            colors={[Colors.rewardBgLeft, Colors.rewardBgRight]}
+            start={[0, 0.5]} end={[1, 0.5]}
+          >
+            <RewardRowTitleWrapper>
+              <RewardIconWrapper>
+                <FontAwesome name="gift" color="#fff" size={22} />
+              </RewardIconWrapper>
+              <RowTitle color="#fff" noMarginBottom>
+                รางวัลเมื่อทำภารกิจสำเร็จ
+              </RowTitle>
+            </RewardRowTitleWrapper>
+            <RewardText>
               {challengeData.reward_id ?
                 challengeData.reward_title
                 :
                 `รับ ${challengeData.reward_gife_points} GIFE POINTS!`
               }
-            </Text>
-          </View>
+            </RewardText>
+          </RewardRowWrapper>
         ),
       },
       {
         rowTitle: 'ภารกิจที่ต้องทำ',
         rowContent: () => (
           <View>
-            <Text>{challengeData.goal_description}</Text>
-            <ChallengeDurationLabel
-              durationText={challengeData.duration_title}
-              endDate={challengeData.end_date}
-            />
-          </View>
-        ),
-      },
-      {
-        rowTitle: '',
-        rowContent: () => (
-          <View>
-            <Text>Place Cards</Text>
+            <Row noMarginBottom noBorderBottom>
+              <RowTitle>ภารกิจที่ต้องทำ</RowTitle>
+              <GoalText>{challengeData.goal_description}</GoalText>
+            </Row>
+            {!!placesData &&
+              <FlatList
+                data={[
+                  { flatListSpacer: true, id: 'spacer-front' },
+                  ...placesData,
+                  { flatListSpacer: true, id: 'spacer-back' },
+                ]}
+                keyExtractor={item => item.id}
+                renderItem={({ item }) => (
+                  item.flatListSpacer ?
+                    <FlatListSpacer />
+                    :
+                    <PlaceCardWrapper>
+                      <PlaceCard
+                        name={item.name}
+                        bannerImageUrl={item.banner_image_url}
+                        subregion={item.subregion_name}
+                        region={item.region_name}
+                        province={item.province_name}
+                        rating={item.rating}
+                      />
+                    </PlaceCardWrapper>
+                )}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+              />
+            }
+            <Row>
+              <View style={{ marginBottom: 30 }}>
+                <ChallengeDurationLabel
+                  durationText={challengeData.duration_title}
+                  endDate={challengeData.end_date}
+                />
+              </View>
+            </Row>
           </View>
         ),
       },
       {
         rowTitle: 'รีวิวภารกิจ',
         rowContent: () => (
-          <View>
-            <Text>Reviews</Text>
-          </View>
+          <Row>
+            <RowTitle>Reviews</RowTitle>
+          </Row>
         ),
       },
     ]);
@@ -156,12 +240,7 @@ class Talks extends Component {
       <ListViewWrapper
         backgroundColor={Colors.main}
         dataSource={this.state.dataSource}
-        renderRow={({ rowTitle, rowContent }) => (
-          <Row>
-            <RowTitle>{rowTitle}</RowTitle>
-            {rowContent()}
-          </Row>
-         )}
+        renderRow={({ rowContent }) => rowContent()}
         renderScrollComponent={props => (
           <ParallaxScrollView
             backgroundColor={Colors.main}
@@ -224,22 +303,5 @@ class Talks extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-  },
-  background: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: Layout.window.width,
-    height: PARALLAX_HEADER_HEIGHT,
-  },
-  stickySectionText: {
-    color: 'white',
-    fontSize: 20,
-    margin: 10,
-  },
-});
 
 export default Talks;

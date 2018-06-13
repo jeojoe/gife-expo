@@ -10,7 +10,7 @@ const Wrapper = styled.View`
   border-width: 2;
   align-self: flex-start;
   overflow: hidden;
-  max-width: 200;
+  max-width: 300;
 `;
 const WrapperTop = styled.View`
   border-bottom-width: 1;
