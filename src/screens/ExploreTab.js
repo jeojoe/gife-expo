@@ -9,9 +9,10 @@ import {
   HeaderTextFront,
   TopSpacer,
   PlaceHolderTextGrey,
+  FlatListSpacer,
 } from '../components/styled';
 import { SpotlightCarousel, ChallengeCard } from '../components/challenge';
-import { Colors, Style } from '../constants';
+import { Colors } from '../constants';
 import { ChallengeServices } from '../services';
 
 // Styled components
@@ -21,9 +22,6 @@ const ChallengeTypeWrapper = styled.View`
 const ChallengeCardWrapper = styled.View`
   margin-right: 15;
   padding-vertical: 15; // For shadow
-`;
-const FlatListSpacer = styled.View`
-  width: ${Style.padHorizThick};
 `;
 
 class ExploreTab extends Component {

@@ -25,6 +25,10 @@ export const TopSpacer = styled.View`
   })};
 `;
 
+export const FlatListSpacer = styled.View`
+  width: ${Style.padHorizThick};
+`;
+
 export const Wrapper = styled.View`
   flex: 1;
   /* Horizontal padding */
