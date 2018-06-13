@@ -26,7 +26,7 @@ export const TopSpacer = styled.View`
 `;
 
 export const FlatListSpacer = styled.View`
-  width: ${Style.padHorizThick};
+  width: 20;
 `;
 
 export const Wrapper = styled.View`
