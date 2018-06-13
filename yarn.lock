@@ -5267,6 +5267,10 @@ react-native-maps@0.21.0:
     babel-plugin-module-resolver "^2.3.0"
     babel-preset-react-native "1.9.0"
 
+react-native-open-maps@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-open-maps/-/react-native-open-maps-0.2.0.tgz#ae96cb8edbbe52886d6a2bd5f2cc8c0386cd72b2"
+
 react-native-parallax-scroll-view@^0.21.1:
   version "0.21.1"
   resolved "https://registry.yarnpkg.com/react-native-parallax-scroll-view/-/react-native-parallax-scroll-view-0.21.1.tgz#473b9a9810e4a982236000f4e545e49e725b5c9b"
