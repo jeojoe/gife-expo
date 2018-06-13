@@ -4,6 +4,7 @@ import { LinearGradient } from 'expo';
 
 import { LocationLabel, RatingLabel } from '../base';
 import { Colors, Style } from '../../constants';
+import { PlaceUtils } from '../../utils';
 
 const cardWidth = 240;
 // Styled components
@@ -50,7 +51,7 @@ const PlaceCard = ({
         <TitleText>{name}</TitleText>
         <BottomRowWrapper>
           <LocationLabel
-            text={`${subregion === region ? province : region}, ${subregion}`}
+            text={PlaceUtils.getLocationLabel(province, region, subregion)}
             color="#fff"
           />
           <RatingLabel
