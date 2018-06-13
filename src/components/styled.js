@@ -4,6 +4,7 @@ import { Platform } from 'react-native';
 
 import { Style, Colors } from '../constants';
 import logoWhiteTrans from '../assets/images/logo-white-trans.png';
+import logoSmallWhite from '../assets/images/logo-small-white.png';
 
 // Helpers
 function getPadHoriz(padHoriz) {
@@ -48,6 +49,13 @@ export const Logo = styled.Image.attrs({
   source: logoWhiteTrans,
 })`
   width: ${props => props.height * 2.3957894737};
+  height: ${props => props.height};
+`;
+
+export const LogoSmallWhite = styled.Image.attrs({
+  source: logoSmallWhite,
+})`
+  width: ${props => props.height * 0.9773662551};
   height: ${props => props.height};
 `;
 

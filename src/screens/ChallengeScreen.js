@@ -28,7 +28,6 @@ const RowTitle = styled.Text`
   font-family: 'th-fancy-medium';
   margin-bottom: ${props => (props.noMarginBottom ? 0 : 10)};
   color: ${props => props.color || '#000'};
-  text-align: center;
 `;
 const ListViewWrapper = styled.ListView`
   flex: 1;
@@ -70,6 +69,7 @@ const BottomRowWrapper = styled.View`
 const GoalText = styled.Text`
   font-size: 22;
   margin-bottom: 15;
+  text-align: center;
 `;
 const RewardRowWrapper = styled(LinearGradient)`
   padding-horizontal: 6%;
