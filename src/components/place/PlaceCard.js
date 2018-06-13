@@ -1,6 +1,8 @@
 import React from 'react';
+import { TouchableOpacity } from 'react-native';
 import styled from 'styled-components';
 import { LinearGradient } from 'expo';
+import { withNavigation } from 'react-navigation';
 
 import { LocationLabel, RatingLabel } from '../base';
 import { Colors, Style } from '../../constants';
@@ -33,34 +35,40 @@ const TitleText = styled.Text`
 `;
 
 const PlaceCard = ({
+  placeId,
   bannerImageUrl,
   name,
   subregion,
   region,
   province,
   rating,
+  navigation,
 }) => {
   return (
-    <Wrapper
-      source={{ uri: bannerImageUrl }}
+    <TouchableOpacity
+      onPress={() => navigation.navigate('Place', { placeId })}
     >
-      <GradientWrapper
-        colors={['transparent', 'rgba(0,0,0,.9)']}
-        start={[0.5, 0]} end={[0.5, 1]}
+      <Wrapper
+        source={{ uri: bannerImageUrl }}
       >
-        <TitleText>{name}</TitleText>
-        <BottomRowWrapper>
-          <LocationLabel
-            text={PlaceUtils.getLocationLabel(province, region, subregion)}
-            color="#fff"
-          />
-          <RatingLabel
-            rating={rating}
-          />
-        </BottomRowWrapper>
-      </GradientWrapper>
-    </Wrapper>
+        <GradientWrapper
+          colors={['transparent', 'rgba(0,0,0,.9)']}
+          start={[0.5, 0]} end={[0.5, 1]}
+        >
+          <TitleText>{name}</TitleText>
+          <BottomRowWrapper>
+            <LocationLabel
+              text={PlaceUtils.getLocationLabel(province, region, subregion)}
+              color="#fff"
+            />
+            <RatingLabel
+              rating={rating}
+            />
+          </BottomRowWrapper>
+        </GradientWrapper>
+      </Wrapper>
+    </TouchableOpacity>
   );
 };
 
-export default PlaceCard;
+export default withNavigation(PlaceCard);

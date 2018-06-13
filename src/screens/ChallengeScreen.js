@@ -190,6 +190,7 @@ class Talks extends Component {
                     :
                     <PlaceCardWrapper>
                       <PlaceCard
+                        placeId={item.id}
                         name={item.name}
                         bannerImageUrl={item.banner_image_url}
                         subregion={item.subregion_name}

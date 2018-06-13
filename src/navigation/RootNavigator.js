@@ -5,6 +5,7 @@ import { StackNavigator } from 'react-navigation';
 import MainTabNavigator from './MainTabNavigator';
 import {
   ChallengeScreen,
+  PlaceScreen,
 } from '../screens';
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
 
@@ -15,6 +16,9 @@ const RootStackNavigator = StackNavigator(
     },
     Challenge: {
       screen: ChallengeScreen,
+    },
+    Place: {
+      screen: PlaceScreen,
     },
   },
   {
