@@ -5,6 +5,7 @@ import RatingLabel from './RatingLabel';
 import TimerLabel from './TimerLabel';
 import LocationLabel from './LocationLabel';
 import BackButton from './BackButton';
+import FooterButton from './FooterButton';
 
 export {
   LogoSmall,
@@ -14,4 +15,5 @@ export {
   TimerLabel,
   LocationLabel,
   BackButton,
+  FooterButton,
 };

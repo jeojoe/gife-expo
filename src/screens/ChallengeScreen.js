@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { LinearGradient } from 'expo';
 import { FontAwesome } from '@expo/vector-icons';
 
-import { BackButton, TimerLabel, LocationLabel, RatingLabel } from '../components/base';
+import { BackButton, TimerLabel, LocationLabel, RatingLabel, FooterButton } from '../components/base';
 import { ChallengeDurationLabel } from '../components/challenge';
 import { PlaceCard } from '../components/place';
 import { PlaceHolderTextGrey, FlatListSpacer } from '../components/styled';
@@ -237,69 +237,74 @@ class Talks extends Component {
 
     const { challenge } = this.state;
     return (
-      <ListViewWrapper
-        backgroundColor={Colors.main}
-        dataSource={this.state.dataSource}
-        renderRow={({ rowContent }) => rowContent()}
-        renderScrollComponent={props => (
-          <ParallaxScrollView
-            backgroundColor={Colors.main}
-            stickyHeaderHeight={STICKY_HEADER_HEIGHT}
-            parallaxHeaderHeight={PARALLAX_HEADER_HEIGHT}
-            backgroundSpeed={10}
-            renderBackground={() => (
-              <View>
-                <Image
-                  source={{
-                    uri: challenge.banner_image_url,
-                    width: Layout.window.width,
-                    height: PARALLAX_HEADER_HEIGHT,
-                  }}
-                />
-                <View
-                  style={{
-                    position: 'absolute',
-                    top: 0,
-                    width: Layout.window.width,
-                    backgroundColor: 'rgba(0,0,0,.4)',
-                    height: PARALLAX_HEADER_HEIGHT,
-                  }}
-                />
-              </View>
-            )}
-            renderForeground={() => (
-              <ForegroundWrapper>
-                <StatusBar barStyle="light-content" />
-                <ForegroundContentWrapper>
-                  <View>
-                    <TimerLabel daysLeft={2} />
-                  </View>
-                  <ForegroundTitleText>{challenge.title}</ForegroundTitleText>
-                  <BottomRowWrapper>
-                    <LocationLabel
-                      text={challenge.location_label}
-                      color="#fff"
-                    />
-                    {/* Spacer */}
-                    <View style={{ width: 15 }} />
-                    <RatingLabel
-                      rating={challenge.rating}
-                    />
-                  </BottomRowWrapper>
-                </ForegroundContentWrapper>
-              </ForegroundWrapper>
-            )}
-            renderStickyHeader={() => <View />} // For header background fade in
-            renderFixedHeader={() => (
-              <FixedWrapper>
-                <BackButton
-                  onPress={() => this.props.navigation.goBack()}
-                />
-              </FixedWrapper>
-            )}
-          />
-        )}
-      />
+      <View style={{ flex: 1 }}>
+        <ListViewWrapper
+          dataSource={this.state.dataSource}
+          renderRow={({ rowContent }) => rowContent()}
+          renderScrollComponent={props => (
+            <ParallaxScrollView
+              backgroundColor={Colors.main}
+              stickyHeaderHeight={STICKY_HEADER_HEIGHT}
+              parallaxHeaderHeight={PARALLAX_HEADER_HEIGHT}
+              backgroundSpeed={10}
+              renderBackground={() => (
+                <View>
+                  <Image
+                    source={{
+                      uri: challenge.banner_image_url,
+                      width: Layout.window.width,
+                      height: PARALLAX_HEADER_HEIGHT,
+                    }}
+                  />
+                  <View
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      width: Layout.window.width,
+                      backgroundColor: 'rgba(0,0,0,.4)',
+                      height: PARALLAX_HEADER_HEIGHT,
+                    }}
+                  />
+                </View>
+              )}
+              renderForeground={() => (
+                <ForegroundWrapper>
+                  <StatusBar barStyle="light-content" />
+                  <ForegroundContentWrapper>
+                    <View>
+                      <TimerLabel daysLeft={2} />
+                    </View>
+                    <ForegroundTitleText>{challenge.title}</ForegroundTitleText>
+                    <BottomRowWrapper>
+                      <LocationLabel
+                        text={challenge.location_label}
+                        color="#fff"
+                      />
+                      {/* Spacer */}
+                      <View style={{ width: 15 }} />
+                      <RatingLabel
+                        rating={challenge.rating}
+                      />
+                    </BottomRowWrapper>
+                  </ForegroundContentWrapper>
+                </ForegroundWrapper>
+              )}
+              renderStickyHeader={() => <View />} // For header background fade in
+              renderFixedHeader={() => (
+                <FixedWrapper>
+                  <BackButton
+                    onPress={() => this.props.navigation.goBack()}
+                  />
+                </FixedWrapper>
+              )}
+            />
+          )}
+        />
+        <FooterButton
+          text="เริ่มทำภารกิจ!"
+          onPress={() => console.log('Start Challenge')}
+        />
+      </View>
     );
   }
 }
