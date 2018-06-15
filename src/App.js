@@ -44,7 +44,9 @@ class App extends React.Component {
     });
 
     // Check invitation code
+    await AuthServices.deleteInvitationCode();
     const code = await AuthServices.getInvitationCode();
+    console.log(code);
     if (code) {
       this.props.setInvitationCode(code);
       // Invited -> check current user

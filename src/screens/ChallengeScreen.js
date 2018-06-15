@@ -104,7 +104,7 @@ const PlaceCardWrapper = styled.View`
 `;
 
 
-class Talks extends Component {
+class ChallengeScreen extends Component {
   static navigationOptions = {
     header: null,
   }
@@ -226,6 +226,10 @@ class Talks extends Component {
     ]);
   }
 
+  startChallenge = (challengeId) => {
+    console.log(challengeId);
+  }
+
   render() {
     if (this.state.isLoading) return <ActivityIndicator />;
     if (this.state.isFail) {
@@ -303,11 +307,11 @@ class Talks extends Component {
         />
         <FooterButton
           text="เริ่มทำภารกิจ!"
-          onPress={() => console.log('Start Challenge')}
+          onPress={() => this.startChallenge(challenge.id)}
         />
       </View>
     );
   }
 }
 
-export default Talks;
+export default ChallengeScreen;

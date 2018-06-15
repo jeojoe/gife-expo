@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { View, Text } from 'react-native';
 import styled from 'styled-components';
 
+import { FooterButton } from '../components/base';
 import { Colors } from '../constants';
+import { AuthActions } from '../actions';
 
 const UserIcon = styled.Image`
   borderRadius: 16;
@@ -28,9 +31,19 @@ class ProfileTab extends Component {
     return (
       <View>
         <Text>ProfileTab</Text>
+        <FooterButton
+          text="Sign out"
+          onPress={() => this.props.signOut()}
+        />
       </View>
     );
   }
 }
 
-export default ProfileTab;
+function mapDispatchToProps(dispatch) {
+  return {
+    signOut: () => dispatch(AuthActions.signOut()),
+  };
+}
+
+export default connect(null, mapDispatchToProps)(ProfileTab);

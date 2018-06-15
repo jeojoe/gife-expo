@@ -26,26 +26,9 @@ export function deleteInvitationCode() {
 }
 
 export function verifyInvitationCode(code) {
-  // return API.get(`auth/invitation?code=${code}`);
-  // Temp no internet
-  return new Promise(resolve => resolve('lol'));
+  return API.get(`auth/invitation?code=${code}`);
 }
 
-export async function loginOAuth(accessToken) {
-  const response = await fetch(`https://graph.facebook.com/me?access_token=${accessToken}&fields=email,first_name,last_name,picture`);
-  const userData = await response.json();
-
-  console.log('== Login facebook ==');
-  console.log(userData);
-
-  const { id: uid, email, first_name, last_name, picture } = userData;
-
-  return API.post('api/auth/facebook', {
-    accessToken,
-    uid,
-    email,
-    first_name,
-    last_name,
-    image_url: picture && picture.data ? picture.data.url : '',
-  });
+export function loginOAuth(token, temp) {
+  return API.post('auth/login/oauth', { token, temp });
 }

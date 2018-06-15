@@ -1,3 +1,4 @@
+import axios from 'axios';
 import Config from '../../app.json';
 
 function genEndpoint(path) {
@@ -10,17 +11,13 @@ export function mock() {
 }
 
 export function get(path) {
-  return fetch(genEndpoint(path), {
+  return axios.get(genEndpoint(path), {
     headers: { 'x-api-key': Config.aws.API_KEY },
-  })
-    .then(res => res.json());
+  });
 }
 
 export function post(path, body) {
-  return fetch(genEndpoint(path), {
-    method: 'POST',
-    body,
+  return axios.post(genEndpoint(path), body, {
     headers: { 'x-api-key': Config.aws.API_KEY },
-  })
-    .then(res => res.json());
+  });
 }
