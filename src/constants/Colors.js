@@ -16,7 +16,7 @@ export default {
   bgTopBarRight: '#C50950',
   bgMainTop: '#F30C99',
   bgMainBottom: '#E30560',
-  border: '#ddd',
+  border: '#eee',
   mainGradientTopLeft: 'rgba(252, 11, 105, 0.85)',
   mainGradientBottomRight: 'rgba(203, 17, 80, 1)',
   darkPink: '#AC1155',
