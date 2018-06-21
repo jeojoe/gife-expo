@@ -88,24 +88,25 @@ class PlaceScreen extends Component {
     dataSource: null,
   }
 
-  async componentDidMount() {
-    try {
-      const { placeId } = this.props.navigation.state.params;
-      const { place, reviews } = await PlaceServices.getPlace(placeId);
-      if (!place) {
-        this.setState({ isFail: false });
-        return;
-      }
-      this.setState({
-        place,
-        dataSource: this.generateRows(place, reviews),
-      });
-    } catch (err) {
-      this.setState({ isFail: true });
-      setTimeout(() => Alert.alert('Error', 'Fail loading challenge data. Please check your internet connection!'));
-    } finally {
-      this.setState({ isLoading: false });
-    }
+  componentDidMount() {
+    const { placeId } = this.props.navigation.state.params;
+    PlaceServices.getPlace(placeId)
+      .then(({ data: { place, reviews } }) => {
+        if (!place) {
+          this.setState({ isFail: true });
+          return;
+        }
+        this.setState({
+          place,
+          dataSource: this.generateRows(place, reviews),
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        this.setState({ isFail: true });
+        setTimeout(() => Alert.alert('Error', 'Fail loading challenge data. Please check your internet connection!'));
+      })
+      .finally(() => this.setState({ isLoading: false }));
   }
 
   generateRows = (placeData, reviewsData) => {
@@ -239,7 +240,7 @@ class PlaceScreen extends Component {
         <ListViewWrapper
           dataSource={this.state.dataSource}
           renderRow={({ rowContent }) => rowContent()}
-          renderScrollComponent={props => (
+          renderScrollComponent={() => (
             <ParallaxScrollView
               backgroundColor={Colors.main}
               stickyHeaderHeight={STICKY_HEADER_HEIGHT}

@@ -112,30 +112,29 @@ class ChallengeScreen extends Component {
     isLoading: true,
     isFail: false,
     challenge: null,
-    places: null,
     dataSource: null,
   }
 
-  async componentDidMount() {
-    try {
-      const { challengeId } = this.props.navigation.state.params;
-      const { challenge, places } = await ChallengeServices.getChallenge(challengeId);
-      console.log(places);
-      if (!challenge) {
+  componentDidMount() {
+    const { challengeId } = this.props.navigation.state.params;
+    ChallengeServices.getChallenge(challengeId)
+      .then(({ data: { challenge, places } }) => {
+        if (!challenge) {
+          this.setState({ isFail: true });
+          return;
+        }
+        console.log(challenge.banner_image_url);
+        this.setState({
+          challenge,
+          dataSource: this.generateRows(challenge, places),
+        });
+      })
+      .catch((err) => {
+        console.log(err);
         this.setState({ isFail: true });
-        return;
-      }
-      this.setState({
-        challenge,
-        places,
-        dataSource: this.generateRows(challenge, places),
-      });
-    } catch (err) {
-      this.setState({ isFail: true });
-      setTimeout(() => Alert.alert('Error', 'Fail loading challenge data. Please check your internet connection!'));
-    } finally {
-      this.setState({ isLoading: false });
-    }
+        setTimeout(() => Alert.alert('Error', 'Fail loading challenge data. Please check your internet connection!'));
+      })
+      .finally(() => this.setState({ isLoading: false }));
   }
 
   generateRows = (challengeData, placesData) => {
@@ -246,7 +245,7 @@ class ChallengeScreen extends Component {
         <ListViewWrapper
           dataSource={this.state.dataSource}
           renderRow={({ rowContent }) => rowContent()}
-          renderScrollComponent={props => (
+          renderScrollComponent={() => (
             <ParallaxScrollView
               backgroundColor={Colors.main}
               stickyHeaderHeight={STICKY_HEADER_HEIGHT}

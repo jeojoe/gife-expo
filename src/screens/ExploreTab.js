@@ -54,11 +54,11 @@ class ExploreTab extends Component {
     //   .then(res => console.log(res))
     //   .catch(err => console.log(err))
     try {
-      const res = await ChallengeServices.getExplore();
+      const { data } = await ChallengeServices.getExplore();
       this.setState({
         isFail: false,
-        spotlight: res.spotlight,
-        types: res.types,
+        spotlight: data.spotlight,
+        types: data.types,
       });
     } catch (err) {
       this.setState({ isFail: true });
