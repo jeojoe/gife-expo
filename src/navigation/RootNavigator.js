@@ -1,6 +1,6 @@
 import { Notifications } from 'expo';
 import React from 'react';
-import { StackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 
 import MainTabNavigator from './MainTabNavigator';
 import {
@@ -9,25 +9,20 @@ import {
 } from '../screens';
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
 
-const RootStackNavigator = StackNavigator(
+const RootStackNavigator = createStackNavigator(
   {
-    Main: {
-      screen: MainTabNavigator,
-    },
-    Challenge: {
-      screen: ChallengeScreen,
-    },
-    Place: {
-      screen: PlaceScreen,
-    },
+    Main: MainTabNavigator,
+    Challenge: ChallengeScreen,
+    Place: PlaceScreen,
   },
   {
     navigationOptions: () => ({
       headerTitleStyle: {
         fontWeight: 'normal',
       },
+      header: null,
     }),
-  }
+  },
 );
 
 export default class RootNavigator extends React.Component {
@@ -36,11 +31,9 @@ export default class RootNavigator extends React.Component {
   }
 
   componentWillUnmount() {
-    this._notificationSubscription && this._notificationSubscription.remove();
-  }
-
-  render() {
-    return <RootStackNavigator />;
+    if (this._notificationSubscription) {
+      this._notificationSubscription.remove();
+    }
   }
 
   _registerForPushNotifications() {
@@ -56,5 +49,9 @@ export default class RootNavigator extends React.Component {
 
   _handleNotification = ({ origin, data }) => {
     console.log(`Push notification ${origin} with data: ${JSON.stringify(data)}`);
-  };
+  }
+
+  render() {
+    return <RootStackNavigator />;
+  }
 }

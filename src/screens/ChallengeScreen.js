@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
-import { Image, StyleSheet, FlatList, View, Alert, ListView, ActivityIndicator, StatusBar } from 'react-native';
+import { Image, StyleSheet, FlatList, View, Alert, ListView, ActivityIndicator, StatusBar, Platform } from 'react-native';
+import { connect } from 'react-redux';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import styled from 'styled-components';
 import { LinearGradient } from 'expo';
 import { FontAwesome } from '@expo/vector-icons';
 
 import { BackButton, TimerLabel, LocationLabel, RatingLabel, FooterButton } from '../components/base';
-import { ChallengeDurationLabel } from '../components/challenge';
+import { ChallengeDurationLabel, StartChallengeModal } from '../components/challenge';
 import { PlaceCard } from '../components/place';
 import { PlaceHolderTextGrey, FlatListSpacer } from '../components/styled';
 import { ChallengeServices } from '../services';
 import { Layout, Colors } from '../constants';
+import { BaseActions, ChallengeActions } from '../actions';
 
 const PARALLAX_HEADER_HEIGHT = 350;
 const STICKY_HEADER_HEIGHT = 70;
@@ -225,8 +227,20 @@ class ChallengeScreen extends Component {
     ]);
   }
 
-  startChallenge = (challengeId) => {
-    console.log(challengeId);
+  startChallenge = (title, id) => {
+    Alert.alert(
+      'กำลังจะเริ่มภารกิจ!',
+      `คุณต้องการเริ่มภารกิจ "${title}" ใช่หรือไม่?`,
+      [{
+        text: 'ยกเลิก',
+        style: Platform.select({ ios: 'destructive', android: 'negative' }),
+      }, {
+        text: 'เริ่มเลย!',
+        onPress: () => {
+
+        },
+      }],
+    );
   }
 
   render() {
@@ -242,6 +256,7 @@ class ChallengeScreen extends Component {
     const { challenge } = this.state;
     return (
       <View style={{ flex: 1 }}>
+        <StartChallengeModal />
         <ListViewWrapper
           dataSource={this.state.dataSource}
           renderRow={({ rowContent }) => rowContent()}
@@ -306,11 +321,23 @@ class ChallengeScreen extends Component {
         />
         <FooterButton
           text="เริ่มทำภารกิจ!"
-          onPress={() => this.startChallenge(challenge.id)}
+          onPress={() => this.startChallenge(challenge.title, challenge.id)}
         />
       </View>
     );
   }
 }
 
-export default ChallengeScreen;
+function mapDispatchToProps(dispatch) {
+  return {
+    showStartChallengeModal: (challenge) => {
+      console.log('Start challenge : ', challenge);
+      dispatch(ChallengeActions.showStartChallengeModal(challenge));
+    },
+    hideStartChallengeModal: () => dispatch(ChallengeActions.hideStartChallengeModal()),
+    startLoading: () => dispatch(BaseActions.startLoading()),
+    endLoading: () => dispatch(BaseActions.endLoading()),
+  };
+}
+
+export default connect(undefined, mapDispatchToProps)(ChallengeScreen);

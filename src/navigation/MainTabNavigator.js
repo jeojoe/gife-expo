@@ -1,23 +1,14 @@
-import { TabNavigator, TabBarBottom } from 'react-navigation';
+import { createBottomTabNavigator } from 'react-navigation';
 
 import { Colors } from '../constants';
 import { ExploreTab, GifeTab, RewardTab, ProfileTab } from '../screens';
 
-
-export default TabNavigator(
+export default createBottomTabNavigator(
   {
-    ExploreTab: {
-      screen: ExploreTab,
-    },
-    GifeTab: {
-      screen: GifeTab,
-    },
-    RewardTab: {
-      screen: RewardTab,
-    },
-    ProfileTab: {
-      screen: ProfileTab,
-    },
+    ExploreTab,
+    GifeTab,
+    RewardTab,
+    ProfileTab,
   },
   {
     tabBarOptions: {
@@ -30,9 +21,7 @@ export default TabNavigator(
       },
       allowFontScaling: true,
     },
-    tabBarComponent: TabBarBottom,
-    tabBarPosition: 'bottom',
-    animationEnabled: false,
+    animationEnabled: true,
     swipeEnabled: false,
-  }
+  },
 );

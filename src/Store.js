@@ -18,6 +18,7 @@ import {
   BaseReducers,
   AuthReducers,
   UserReducers,
+  ChallengeReducers,
 } from './reducers';
 
 // Setup Reactotron (must exec before createStore)
@@ -52,6 +53,7 @@ const reducers = combineReducers({
   ...BaseReducers,
   ...AuthReducers,
   ...UserReducers,
+  ...ChallengeReducers,
 });
 
 export default (initialState) => {
