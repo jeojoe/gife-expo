@@ -7,3 +7,7 @@ export function getCurrentUser() {
     });
   });
 }
+
+export function getIdToken() {
+  return Firebase.auth().currentUser.getIdToken();
+}

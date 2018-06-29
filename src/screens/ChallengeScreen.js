@@ -227,17 +227,28 @@ class ChallengeScreen extends Component {
     ]);
   }
 
-  startChallenge = (title, id) => {
+  startChallenge = (challenge) => {
     Alert.alert(
       'กำลังจะเริ่มภารกิจ!',
-      `คุณต้องการเริ่มภารกิจ "${title}" ใช่หรือไม่?`,
+      `คุณต้องการเริ่มภารกิจ "${challenge.title}" ใช่หรือไม่?`,
       [{
         text: 'ยกเลิก',
         style: Platform.select({ ios: 'destructive', android: 'negative' }),
       }, {
         text: 'เริ่มเลย!',
-        onPress: () => {
-
+        onPress: async () => {
+          this.props.startLoading();
+          try {
+            await ChallengeServices.startChallenge(challenge.id);
+            setTimeout(() => this.props.showStartChallengeModal(challenge), 500);
+          } catch (err) {
+            console.log(err);
+            if (err.response.data && err.response.data.msg) {
+              setTimeout(() => Alert.alert('Error', err.response.data.msg), 500);
+            }
+          } finally {
+            this.props.endLoading();
+          }
         },
       }],
     );
@@ -245,7 +256,9 @@ class ChallengeScreen extends Component {
 
   render() {
     if (this.state.isLoading) return <ActivityIndicator />;
-    if (this.state.isFail) {
+
+    const { challenge } = this.state;
+    if (this.state.isFail || !challenge) {
       return (
         <PlaceHolderTextGrey>
           Network error! Please try again
@@ -253,7 +266,6 @@ class ChallengeScreen extends Component {
       );
     }
 
-    const { challenge } = this.state;
     return (
       <View style={{ flex: 1 }}>
         <StartChallengeModal />
@@ -321,7 +333,7 @@ class ChallengeScreen extends Component {
         />
         <FooterButton
           text="เริ่มทำภารกิจ!"
-          onPress={() => this.startChallenge(challenge.title, challenge.id)}
+          onPress={() => this.startChallenge(challenge)}
         />
       </View>
     );
@@ -330,10 +342,7 @@ class ChallengeScreen extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    showStartChallengeModal: (challenge) => {
-      console.log('Start challenge : ', challenge);
-      dispatch(ChallengeActions.showStartChallengeModal(challenge));
-    },
+    showStartChallengeModal: challenge => dispatch(ChallengeActions.showStartChallengeModal(challenge)),
     hideStartChallengeModal: () => dispatch(ChallengeActions.hideStartChallengeModal()),
     startLoading: () => dispatch(BaseActions.startLoading()),
     endLoading: () => dispatch(BaseActions.endLoading()),
