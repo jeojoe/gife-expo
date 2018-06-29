@@ -5,6 +5,7 @@ import { LinearGradient } from 'expo';
 import styled from 'styled-components';
 
 import { Colors } from '../../constants';
+import { ChallengeCardJumbo } from '../challenge';
 
 const Wrapper = styled(LinearGradient)`
   flex: 1;
@@ -31,6 +32,18 @@ const StartChallengeModal = ({
         start={[0, 1]} end={[1, 0]}
       >
         <Header>Let's Gife</Header>
+        {challenge &&
+          <ChallengeCardJumbo
+            key={challenge.id}
+            id={challenge.id}
+            title={challenge.title}
+            bannerImageUrl={challenge.banner_image_url}
+            locationLabel={challenge.location_label}
+            rating={challenge.rating}
+            rewardId={challenge.reward_id}
+            rewardGifePoints={challenge.reward_gife_points}
+          />
+        }
       </Wrapper>
     </Modal>
   );
@@ -39,7 +52,6 @@ const StartChallengeModal = ({
 function mapStateToProps(state) {
   return {
     isVisible: state.isStartChallengeModalVisible,
-    challenge: state.challengeDataInStartChallengeModal,
   };
 }
 

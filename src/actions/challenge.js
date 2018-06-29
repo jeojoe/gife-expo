@@ -1,9 +1,8 @@
 import { ActionTypes } from '../constants';
 
-export function showStartChallengeModal(challenge) {
+export function showStartChallengeModal() {
   return {
     type: ActionTypes.SHOW_START_CHALLENGE_MODAL,
-    challenge,
   };
 }
 

@@ -227,10 +227,10 @@ class ChallengeScreen extends Component {
     ]);
   }
 
-  startChallenge = (challenge) => {
+  startChallenge = (id, title) => {
     Alert.alert(
       'กำลังจะเริ่มภารกิจ!',
-      `คุณต้องการเริ่มภารกิจ "${challenge.title}" ใช่หรือไม่?`,
+      `คุณต้องการเริ่มภารกิจ "${title}" ใช่หรือไม่?`,
       [{
         text: 'ยกเลิก',
         style: Platform.select({ ios: 'destructive', android: 'negative' }),
@@ -239,8 +239,9 @@ class ChallengeScreen extends Component {
         onPress: async () => {
           this.props.startLoading();
           try {
-            await ChallengeServices.startChallenge(challenge.id);
-            setTimeout(() => this.props.showStartChallengeModal(challenge), 500);
+            // await ChallengeServices.startChallenge(id);
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            setTimeout(() => this.props.showStartChallengeModal(), 500);
           } catch (err) {
             console.log(err);
             if (err.response.data && err.response.data.msg) {
@@ -268,7 +269,9 @@ class ChallengeScreen extends Component {
 
     return (
       <View style={{ flex: 1 }}>
-        <StartChallengeModal />
+        <StartChallengeModal
+          challenge={challenge}
+        />
         <ListViewWrapper
           dataSource={this.state.dataSource}
           renderRow={({ rowContent }) => rowContent()}
@@ -333,7 +336,7 @@ class ChallengeScreen extends Component {
         />
         <FooterButton
           text="เริ่มทำภารกิจ!"
-          onPress={() => this.startChallenge(challenge)}
+          onPress={() => this.startChallenge(challenge.id, challenge.title)}
         />
       </View>
     );
@@ -342,7 +345,7 @@ class ChallengeScreen extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    showStartChallengeModal: challenge => dispatch(ChallengeActions.showStartChallengeModal(challenge)),
+    showStartChallengeModal: () => dispatch(ChallengeActions.showStartChallengeModal()),
     hideStartChallengeModal: () => dispatch(ChallengeActions.hideStartChallengeModal()),
     startLoading: () => dispatch(BaseActions.startLoading()),
     endLoading: () => dispatch(BaseActions.endLoading()),
