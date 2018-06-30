@@ -18,13 +18,20 @@ const Wrapper = styled(LinearGradient)`
 const Text = styled.Text`
   font-size: 18;
   color: ${props => props.textColor || '#222'};
+  font-family: 'th-fancy-medium';
 `;
 const IconWrapper = styled.View`
   margin-right: 10;
 `;
 
 const Button = ({
-  text, bgColor, onPress, icon, disabled, textStyle,
+  text,
+  bgColor,
+  onPress = () => {},
+  icon,
+  disabled,
+  textStyle,
+  dropShadow,
 }) => {
   let leftColor = Colors.buttonLeft;
   let rightColor = Colors.buttonRight;
@@ -32,7 +39,7 @@ const Button = ({
 
   if (bgColor === 'white') {
     leftColor = '#fff'; rightColor = '#fff'; textColor = Colors.main;
-  } else if (bgColor === 'pink') {
+  } else if (bgColor === 'main') {
     leftColor = Colors.main; rightColor = Colors.main; textColor = '#fff';
   }
 
@@ -41,20 +48,20 @@ const Button = ({
       onPress={() => onPress()}
       activeOpacity={0.6}
       disabled={disabled}
+      style={dropShadow && Platform.select({
+        ios: {
+          shadowColor: Colors.buttonShadowOnPink,
+          shadowOffset: { width: 0, height: 5 },
+          shadowOpacity: 1,
+          shadowRadius: 5,
+        },
+        android: {
+          elevation: 10,
+        },
+      })}
     >
       <Wrapper
         colors={[leftColor, rightColor]}
-        style={Platform.select({
-          ios: {
-            shadowColor: Colors.buttonShadowOnPink,
-            shadowOffset: { width: 0, height: 5 },
-            shadowOpacity: 1,
-            shadowRadius: 5,
-          },
-          android: {
-            elevation: 10,
-          },
-        })}
         start={{ x: 0, y: 0.5 }} end={{ x: 1, y: 0.5 }}
       >
         {icon &&

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { LinearGradient } from 'expo';
 
 import { Colors, Layout } from '../../constants';
-import { LogoSmallWhite } from '../styled';
+import { LogoSmall } from '../styled';
 
 const Wrapper = styled.View`
   height: 75;
@@ -45,8 +45,9 @@ const FooterButton = ({
           start={[0, 0.5]} end={[1, 0.5]}
         >
           <IconWrapper>
-            <LogoSmallWhite
+            <LogoSmall
               height={30}
+              color="white"
             />
           </IconWrapper>
           <Text>{text}</Text>

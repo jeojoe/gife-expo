@@ -105,7 +105,6 @@ class LoginScreen extends Component {
             text="submit"
             onPress={this._verifyCode}
             disabled={!this.state.invitationCode}
-            textStyle={{ fontWeight: '600' }}
           />
         </ScrollWrapper>
       </KeyboardAwareScrollView>

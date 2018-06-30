@@ -70,6 +70,7 @@ const ChallengeCardJumbo = ({
   rewardTitle,
   rewardGifePoints,
   navigation,
+  disabled,
 }) => {
   return (
     <TouchableOpacity
@@ -85,6 +86,7 @@ const ChallengeCardJumbo = ({
         },
       })}
       onPress={() => navigation.navigate('Challenge', { challengeId })}
+      disabled={disabled}
     >
       <Wrapper
         source={{ uri: bannerImageUrl }}

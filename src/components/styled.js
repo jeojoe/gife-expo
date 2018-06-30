@@ -1,10 +1,10 @@
-import { LinearGradient } from 'expo';
 import styled from 'styled-components';
 import { Platform } from 'react-native';
 
 import { Style, Colors } from '../constants';
 import logoWhiteTrans from '../assets/images/logo-white-trans.png';
 import logoSmallWhite from '../assets/images/logo-small-white.png';
+import logoSmall from '../assets/images/logo-small.png';
 
 // Helpers
 function getPadHoriz(padHoriz) {
@@ -52,8 +52,15 @@ export const Logo = styled.Image.attrs({
   height: ${props => props.height};
 `;
 
-export const LogoSmallWhite = styled.Image.attrs({
-  source: logoSmallWhite,
+export const LogoSmall = styled.Image.attrs({
+  source: (props) => {
+    switch (props.color) {
+      case 'white':
+        return logoSmallWhite;
+      default:
+        return logoSmall;
+    }
+  },
 })`
   width: ${props => props.height * 0.9773662551};
   height: ${props => props.height};
