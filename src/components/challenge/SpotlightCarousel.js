@@ -46,12 +46,14 @@ class SpotlightCarousel extends Component {
         rating={challenge.rating}
         rewardId={challenge.reward_id}
         rewardGifePoints={challenge.reward_gife_points}
+        durationTitle={challenge.duration_title}
       />
     );
   }
 
   render() {
     const { challenges } = this.props;
+    console.log(challenges);
     return (
       <React.Fragment>
         <Carousel

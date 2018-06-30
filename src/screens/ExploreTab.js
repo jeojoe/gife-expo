@@ -72,6 +72,43 @@ class ExploreTab extends Component {
     this._navListener.remove();
   }
 
+  renderChallengeTypes = () => {
+    return this.state.types.map(type => (
+      <ChallengeTypeWrapper key={type.type_id}>
+        <HeaderText>
+          <HeaderTextFront>ภารกิจ</HeaderTextFront>{' '}{type.type_title}
+        </HeaderText>
+        <FlatList
+          data={[
+            { flatListSpacer: true, id: 'spacer-front' },
+            ...type.challenges,
+            { flatListSpacer: true, id: 'spacer-back' },
+          ]}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) => (
+            item.flatListSpacer ?
+              <FlatListSpacer />
+              :
+              <ChallengeCardWrapper>
+                <ChallengeCard
+                  id={item.id}
+                  key={item.id}
+                  title={item.title}
+                  bannerImageUrl={item.banner_image_url}
+                  locationLabel={item.location_label}
+                  rating={item.rating}
+                  rewardId={item.reward_id}
+                  rewardGifePoints={item.reward_gife_points}
+                  durationTitle={item.duration_title}
+                />
+              </ChallengeCardWrapper>
+          )}
+          horizontal
+        />
+      </ChallengeTypeWrapper>
+    ));
+  }
+
   render() {
     return (
       <Wrapper bgColor={Colors.bgGrey}>
@@ -87,53 +124,13 @@ class ExploreTab extends Component {
             <React.Fragment>
               {/* Spotlight */}
               <HeaderText>
-                <HeaderTextFront>
-                  ภารกิจ
-                </HeaderTextFront>
-                {' '}
-                โดดเด่นและแนะนำ
+                <HeaderTextFront>ภารกิจ</HeaderTextFront>{' '}โดดเด่นและแนะนำ
               </HeaderText>
               <SpotlightCarousel
                 challenges={this.state.spotlight}
               />
               {/* Challenge types */}
-              {this.state.types.map(type => (
-                <ChallengeTypeWrapper key={type.type_id}>
-                  <HeaderText>
-                    <HeaderTextFront>
-                      ภารกิจ
-                    </HeaderTextFront>
-                    {' '}
-                    {type.type_title}
-                  </HeaderText>
-                  <FlatList
-                    data={[
-                      { flatListSpacer: true, id: 'spacer-front' },
-                      ...type.challenges,
-                      { flatListSpacer: true, id: 'spacer-back' },
-                    ]}
-                    keyExtractor={item => item.id}
-                    renderItem={({ item }) => (
-                      item.flatListSpacer ?
-                        <FlatListSpacer />
-                        :
-                        <ChallengeCardWrapper>
-                          <ChallengeCard
-                            key={item.id}
-                            title={item.title}
-                            bannerImageUrl={item.banner_image_url}
-                            locationLabel={item.location_label}
-                            rating={item.rating}
-                            rewardId={item.reward_id}
-                            rewardGifePoints={item.reward_gife_points}
-                          />
-                        </ChallengeCardWrapper>
-                    )}
-                    horizontal
-                  />
-                </ChallengeTypeWrapper>
-              ))
-              }
+              {this.renderChallengeTypes()}
             </React.Fragment>
           }
         </ScrollView>

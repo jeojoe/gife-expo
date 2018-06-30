@@ -3,6 +3,7 @@ import { TouchableOpacity, Platform, View } from 'react-native';
 import { LinearGradient } from 'expo';
 import styled from 'styled-components';
 import { FontAwesome } from '@expo/vector-icons';
+import { withNavigation } from 'react-navigation';
 
 import { Colors } from '../../constants';
 import { RatingLabel, TimerLabel, LocationLabel } from '../base';
@@ -20,6 +21,7 @@ const WrapperTop = styled.ImageBackground`
   margin-bottom: 10;
 `;
 const WrapperBottom = styled.View`
+  width: ${cardWidth};
   padding-horizontal: 4;
 `;
 const BottomRowWrapper = styled.View`
@@ -43,14 +45,6 @@ const RewardWrapper = styled(LinearGradient)`
   flex-direction: row;
   overflow: hidden;
 `;
-// const RewardIconWrapper = styled.View`
-//   border-radius: 11;
-//   background-color: ${Colors.darkPink};
-//   height: 22; width: 22;
-//   align-items: center;
-//   justify-content: center;
-//   margin-right: 4;
-// `;
 const RewardIcon = styled(FontAwesome)`
   margin-right: 4;
 `;
@@ -61,6 +55,7 @@ const RewardText = styled.Text`
 `;
 
 const ChallengeCard = ({
+  id: challengeId,
   title,
   bannerImageUrl,
   locationLabel,
@@ -68,10 +63,15 @@ const ChallengeCard = ({
   rewardId,
   rewardTitle,
   rewardGifePoints,
+  durationTitle,
+  navigation,
+  disabled,
 }) => {
   return (
-    <TouchableOpacity>
-      {/* Image (View wrapper for shadow) */}
+    <TouchableOpacity
+      onPress={() => navigation.navigate('Challenge', { challengeId })}
+      disabled={disabled}
+    >
       <View
         style={Platform.select({
           ios: {
@@ -89,7 +89,7 @@ const ChallengeCard = ({
           source={{ uri: bannerImageUrl }}
         >
           <TimerWrapper>
-            <TimerLabel daysLeft={2} small />
+            <TimerLabel durationTitle={durationTitle} small />
           </TimerWrapper>
           <RewardWrapper
             colors={[Colors.rewardBgLeft, Colors.rewardBgRight]}
@@ -119,4 +119,4 @@ const ChallengeCard = ({
   );
 };
 
-export default ChallengeCard;
+export default withNavigation(ChallengeCard);

@@ -69,6 +69,7 @@ const ChallengeCardJumbo = ({
   rewardId,
   rewardTitle,
   rewardGifePoints,
+  durationTitle,
   navigation,
   disabled,
 }) => {
@@ -92,7 +93,7 @@ const ChallengeCardJumbo = ({
         source={{ uri: bannerImageUrl }}
       >
         <TimerWrapper>
-          <TimerLabel daysLeft={2} />
+          <TimerLabel durationTitle={durationTitle} />
         </TimerWrapper>
         <GradientWrapper
           colors={['transparent', 'rgba(0,0,0,.9)']}
