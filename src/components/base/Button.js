@@ -31,6 +31,7 @@ const Button = ({
   icon,
   disabled,
   textStyle,
+  borderStyle,
   dropShadow,
 }) => {
   let leftColor = Colors.buttonLeft;
@@ -63,6 +64,7 @@ const Button = ({
       <Wrapper
         colors={[leftColor, rightColor]}
         start={{ x: 0, y: 0.5 }} end={{ x: 1, y: 0.5 }}
+        style={[borderStyle]}
       >
         {icon &&
           <IconWrapper>

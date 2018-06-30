@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, ScrollView } from 'react-native';
+import { Modal, ScrollView, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { LinearGradient } from 'expo';
 import styled from 'styled-components';
@@ -56,7 +56,7 @@ const StartChallengeModal = ({
         start={[0, 1]} end={[1, 0]}
       >
         <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
-          <TopSpacer />
+          {Platform.OS === 'ios' && <TopSpacer />}
           <Header>Let's Gife !</Header>
           <SubHeader>คุณเริ่มทำภารกิจนี้แล้ว!</SubHeader>
           {challenge &&
@@ -96,6 +96,10 @@ const StartChallengeModal = ({
               dropShadow
               onPress={() => {
                 hideStartChallengeModal();
+              }}
+              borderStyle={{
+                borderWidth: 2,
+                borderColor: '#fff',
               }}
             />
           </ButtonWrapper>
